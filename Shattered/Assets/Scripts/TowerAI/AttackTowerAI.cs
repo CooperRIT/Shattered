@@ -20,6 +20,8 @@ public class AttackTowerAI : MonoBehaviour
 
     [SerializeField] Transform shootPoint;
 
+    float towerDamage = 4;
+
     // Update is called once per frame
     void Update()
     {
@@ -75,7 +77,7 @@ public class AttackTowerAI : MonoBehaviour
 
         //Temp Cast
         IDamageable damagable = (IDamageable)enemies[0];
-        damagable.TakeDamage();
+        damagable.TakeDamage(towerDamage);
 
         //Shoot Bullet For Visual Sake
         Transform projectile = Instantiate(bullet_Prefab, shootPoint.position, Quaternion.identity).transform;
@@ -87,5 +89,5 @@ public class AttackTowerAI : MonoBehaviour
 
 public interface IDamageable
 {
-    void TakeDamage();
+    void TakeDamage(float damage);
 }
