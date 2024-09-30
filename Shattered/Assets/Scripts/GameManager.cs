@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     void OnStartAttackPhase()
     {
-        StartCoroutine(SpawnWave());
+        //StartCoroutine(SpawnWave());
     }
 
     void LoadNextAttackPhase()
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < enemySpawnCount; i++)
         {
-
+            yield return null;
         }
     }
 
