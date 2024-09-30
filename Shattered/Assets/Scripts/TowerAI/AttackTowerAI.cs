@@ -9,7 +9,7 @@ public class AttackTowerAI : MonoBehaviour
      * The duplication of code is not to my liking, but is a nesissary evil for now
      */
 
-    List<EnemyAI> enemies = new List<EnemyAI>();
+    [SerializeField] List<EnemyAI> enemies = new List<EnemyAI>();
 
     [SerializeField] GameObject bullet_Prefab;
 
@@ -25,7 +25,6 @@ public class AttackTowerAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if(enemies.Count == 0)
         {
             return;
@@ -71,6 +70,10 @@ public class AttackTowerAI : MonoBehaviour
         while (enemies[0] == null)
         {
             enemies.RemoveAt(0);
+            if (enemies.Count == 0)
+            {
+                return;
+            }
         }
 
         target = enemies[0].transform;
@@ -82,8 +85,7 @@ public class AttackTowerAI : MonoBehaviour
         //Shoot Bullet For Visual Sake
         Transform projectile = Instantiate(bullet_Prefab, shootPoint.position, Quaternion.identity).transform;
 
-        //projectile.LookAt(target.transform.position);
-        projectile.LookAt(GameManager.instance.Player);
+        projectile.LookAt(target.transform.position);
     }
 }
 

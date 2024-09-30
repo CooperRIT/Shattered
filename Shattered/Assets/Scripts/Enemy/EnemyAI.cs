@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     [SerializeField] FloatEventChannel onEnemyDeath_FloatEventChannel;
 
-    [SerializeField] float health = 100;
+    [SerializeField] float health = 1;
     [SerializeField] float speed = 3;
     [SerializeField] float currencyValue = 1;
     FloatEvent currencyValue_FloatEvent;
@@ -19,7 +19,6 @@ public class EnemyAI : MonoBehaviour, IDamageable
     {
         agent = GetComponent<NavMeshAgent>();
         currencyValue_FloatEvent.FloatValue = currencyValue;
-        OnSpawn();
     }
 
     public void TakeDamage(float damage)
@@ -34,13 +33,15 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     }
 
-    public void OnSpawn()
+    public void OnSpawn(Transform _destination)
     {
+        destination = _destination;
         agent.SetDestination(destination.position);
     }
 
     public void OnDeath()
     {
         onEnemyDeath_FloatEventChannel.CallEvent(currencyValue_FloatEvent);
+        Destroy(gameObject);
     }
 }

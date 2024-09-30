@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     float enemySpawnCount;
-    float enemyIncreasingCount;
-    float currentEnemyCount;
+    float enemyIncreasingCount = 5;
+    [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 3;
     float currency = 0;
 
@@ -44,9 +44,11 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void OnStartAttackPhase()
+    [ContextMenu("Start Wave")]
+    public void OnStartAttackPhase()
     {
-        //StartCoroutine(SpawnWave());
+        currentEnemyCount = enemySpawnCount;
+        StartCoroutine(SpawnWave());
     }
 
     void LoadNextAttackPhase()
@@ -63,7 +65,9 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < enemySpawnCount; i++)
         {
-            yield return null;
+            EnemyAI enemy = Instantiate(enemyPrefab, spawnPosition.position, Quaternion.identity).GetComponent<EnemyAI>();
+            enemy.OnSpawn(endPosition);
+            yield return enemySpawnTimer_wfs;
         }
     }
 
@@ -71,5 +75,9 @@ public class GameManager : MonoBehaviour
     {
         currency += ctx.FloatValue;
         currentEnemyCount--;
+        if(currentEnemyCount == 0)
+        {
+            Debug.Log("Wave Over");
+        }
     }
 }
