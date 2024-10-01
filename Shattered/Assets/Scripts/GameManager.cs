@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class GameManager : MonoBehaviour
     float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 3;
-    float currency = 0;
+    float currency = 5;
+    float prevCurrency = 0;
 
     WaitForSeconds enemySpawnTimer_wfs;
 
@@ -22,6 +24,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform endPosition;
 
     [SerializeField] GameObject enemyPrefab;
+
+    [SerializeField] TextMeshProUGUI currencyText;
+
+    // Properties
+    public float Currency
+    {
+        get => currency;
+        set => currency = value;
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -41,7 +52,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(prevCurrency != currency)
+        {
+            currencyText.text = "Currency: " + currency.ToString();
+            prevCurrency = currency;
+        }
     }
 
     [ContextMenu("Start Wave")]
@@ -73,7 +88,10 @@ public class GameManager : MonoBehaviour
 
     public void OnEnemyDeath(FloatEvent ctx)
     {
+        // Increment the currency and display the updated value
         currency += ctx.FloatValue;
+        currencyText.text = "Currency: " + currency.ToString();
+
         currentEnemyCount--;
         if(currentEnemyCount == 0)
         {

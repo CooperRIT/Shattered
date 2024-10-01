@@ -18,9 +18,10 @@ public class BlockInteractionBehavior : MonoBehaviour, IInteractable
         set { canInteract = value; }
     }
 
-    //Temp Variables for tower placing
-    [SerializeField] GameObject towerPrefab;
+    // Variables
     MeshRenderer mR;
+    [SerializeField] GameObject canvas;
+    private GameObject gm;
 
     public void OnInteract()
     {
@@ -29,9 +30,7 @@ public class BlockInteractionBehavior : MonoBehaviour, IInteractable
             return;
         }
 
-        canInteract = false;
-        Instantiate(towerPrefab, transform.position, Quaternion.identity);
-        mR.enabled = false;
+        canvas.GetComponent<TowerSpawn>().menuActive = true;
 
     }
 
@@ -39,11 +38,24 @@ public class BlockInteractionBehavior : MonoBehaviour, IInteractable
     void Awake()
     {
         mR = transform.parent.GetComponent<MeshRenderer>();
+        gm = GameObject.Find("GameManager");
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void ButtonUsed(GameObject prefab)
+    {
+        // TEMP tower costs 5 credits, you must have 5
+        if (gm.GetComponent<GameManager>().Currency >= 5)
+        {
+            gm.GetComponent<GameManager>().Currency -= 5; // Take 5 currency away
+            canInteract = false; // Deactivate the interactable
+            Instantiate(prefab, transform.position, Quaternion.identity); // Create the tower
+            mR.enabled = false; // Deactivate the collision detection
+        }
     }
 }
