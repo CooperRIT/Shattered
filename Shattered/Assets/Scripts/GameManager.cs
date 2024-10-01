@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI currencyText;
 
     // Properties
-    public float Currency
+    public float Kills
     {
         get => currency;
         set => currency = value;

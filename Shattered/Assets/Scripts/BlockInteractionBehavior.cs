@@ -50,9 +50,9 @@ public class BlockInteractionBehavior : MonoBehaviour, IInteractable
     public void ButtonUsed(GameObject prefab)
     {
         // TEMP tower costs 5 credits, you must have 5
-        if (gm.GetComponent<GameManager>().Currency >= 5)
+        if (gm.GetComponent<GameManager>().Kills >= 5)
         {
-            gm.GetComponent<GameManager>().Currency -= 5; // Take 5 currency away
+            gm.GetComponent<GameManager>().Kills -= 5; // Take 5 currency away
             canInteract = false; // Deactivate the interactable
             Instantiate(prefab, transform.position, Quaternion.identity); // Create the tower
             mR.enabled = false; // Deactivate the collision detection
