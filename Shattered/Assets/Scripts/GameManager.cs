@@ -5,6 +5,8 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
+
     [SerializeField] Transform player;
 
     public Transform Player { get { return player; } }
@@ -47,6 +49,8 @@ public class GameManager : MonoBehaviour
         }
 
         enemySpawnTimer_wfs = new WaitForSeconds(enemySpawnTimer);
+
+        LoadNextAttackPhase();
     }
 
     // Update is called once per frame
@@ -97,5 +101,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Wave Over");
         }
+    }
+
+    public float Currency
+    {
+        get { return currency; }
+        set { currency -= value; }
     }
 }
