@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackTowerAI : MonoBehaviour
+public class AttackTowerAI : MonoBehaviour, ICanDamage
 {
     /*
      * Script implimentation is temporary, but serves it purpose for now
@@ -22,11 +22,21 @@ public class AttackTowerAI : MonoBehaviour
 
     float towerDamage = 4;
 
+    public float Damage => towerDamage;
+
+    [SerializeField] float randomOffset;
+
+    private void Awake()
+    {
+        randomOffset = Random.Range(0.0f, .3f);
+    }
+
     // Update is called once per frame
     void Update()
     {
         if(enemies.Count == 0)
         {
+            timer = timer < Time.time ? randomOffset + Time.time : timer;
             return;
         }
 
@@ -79,7 +89,7 @@ public class AttackTowerAI : MonoBehaviour
         target = enemies[0].transform;
 
         //Temp Cast
-        IDamageable damagable = (IDamageable)enemies[0];
+        IDamageable damagable = enemies[0];
         damagable.TakeDamage(towerDamage);
 
         //Shoot Bullet For Visual Sake
@@ -92,4 +102,8 @@ public class AttackTowerAI : MonoBehaviour
 public interface IDamageable
 {
     void TakeDamage(float damage);
+}
+public interface ICanDamage
+{
+    public float Damage { get; }
 }

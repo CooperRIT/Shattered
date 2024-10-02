@@ -185,8 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e33ac5ab007db47ae73d206b8d342f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemies: []
   bullet_Prefab: {fileID: 6473923742544353274, guid: 272c0b6df7a8d2f43b1d104c72e94e29, type: 3}
-  timerAmount: 2
+  timerAmount: 5
   shootPoint: {fileID: 5847513404949502424}
 --- !u!135 &4592182602158629515
 SphereCollider:

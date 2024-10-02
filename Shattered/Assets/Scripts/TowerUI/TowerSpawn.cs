@@ -1,34 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TowerSpawn : MonoBehaviour
 {
-    // Variables
-    public bool menuActive = false;
 
     [SerializeField] GameObject menuUI;
+    [SerializeField] GameObject towerPrefab;
+    [SerializeField] GameObject interactionBlock;
+    [SerializeField] TextMeshProUGUI currencyText;
+    [SerializeField] TextMeshProUGUI nextWaveText;
 
-    // Properties
-    public bool MenuActive
-    {
-        get => menuActive;
-        set => menuActive = value;
-    }
+    FloatEvent placeHolder = new FloatEvent();
+
+    int tempTowerValue = 5;
+
+    int currentCurrency => GameManager.instance.Currency;
 
     // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        // Check if the value has been changed to true (will happen in the interactble object's script)
-        if (menuActive)
-        {
-            // Show the cursor and allow it to move about the screen
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+        UpdateCurrencyText(placeHolder);
+    }
 
-            menuUI.SetActive(true); // Show the menu screen
+    public void SpawnTower()
+    {
+        if (currentCurrency < tempTowerValue)
+        {
+            return;
         }
+
+        Instantiate(towerPrefab, interactionBlock.transform.position, Quaternion.identity);
+        GameManager.instance.Currency -= tempTowerValue;
+        UpdateCurrencyText(placeHolder);
+        interactionBlock.SetActive(false);
+        ButtonUsed();
     }
 
     public void ButtonUsed()
@@ -39,6 +48,36 @@ public class TowerSpawn : MonoBehaviour
 
         // Hide and deactivate the menu
         menuUI.SetActive(false);
-        menuActive = false;
+    }
+
+    public void OnOpenMenu(GameObjectEvent ctx)
+    {
+        Debug.Log("hello");
+        interactionBlock = ctx.GameObjectRef;
+        OnMenutActivate();
+    }
+
+    void OnMenutActivate()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        menuUI.SetActive(true); // Show the menu screen
+    }
+
+    public void UpdateCurrencyText(FloatEvent ctx)
+    {
+        Invoke(nameof(CurrencyUpdate), .1f);
+        
+    }
+
+    public void DisplayWaveText(VoidEvent ctx)
+    {
+        nextWaveText.enabled = !nextWaveText.enabled;
+    }
+
+    void CurrencyUpdate()
+    {
+        currencyText.text = $"<b>Currency:</b> {currentCurrency}";
     }
 }

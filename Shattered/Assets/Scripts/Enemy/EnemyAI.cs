@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour, IDamageable
+public class EnemyAI : MonoBehaviour, IDamageable, ICanDamage
 {
     NavMeshAgent agent;
     [SerializeField] Transform destination;
@@ -14,6 +14,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [SerializeField] float speed = 3;
     [SerializeField] float currencyValue = 1;
     FloatEvent currencyValue_FloatEvent;
+
+    public float Damage => health;
 
     private void Awake()
     {
@@ -41,6 +43,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     public void OnDeath()
     {
+        currencyValue_FloatEvent.FloatValue = currencyValue;
         onEnemyDeath_FloatEventChannel.CallEvent(currencyValue_FloatEvent);
         Destroy(gameObject);
     }

@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class MainTower : MonoBehaviour, IDamageable
 {
-    NavMeshAgent agent;
-
+    [SerializeField] VoidEventChannel onMainTowerDeath;
+    [SerializeField] TextMeshPro healthText;
     float health = 10;
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
+        UpdateHealthText();
     }
 
     public void TakeDamage(float damage)
     {
         health -= damage;
+        UpdateHealthText();
+
+
         if (health <= 0)
         {
             OnDeath();
@@ -26,6 +30,26 @@ public class MainTower : MonoBehaviour, IDamageable
 
     public void OnDeath()
     {
-        Destroy(gameObject);
+        onMainTowerDeath.CallEvent(new());
+        //Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Enemy"))
+        {
+            return;
+        }
+
+        if (other.gameObject.TryGetComponent(out EnemyAI enemy))
+        {
+            TakeDamage(enemy.Damage);
+            enemy.TakeDamage(1000);
+        }
+    }
+
+    public void UpdateHealthText()
+    {
+        healthText.text = $"<b>Tower Health Remaining:</b> {health}";
     }
 }

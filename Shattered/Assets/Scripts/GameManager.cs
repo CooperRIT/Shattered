@@ -2,39 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
-
     [SerializeField] Transform player;
 
     public Transform Player { get { return player; } }
 
     public static GameManager instance;
 
-    float enemySpawnCount;
+    [SerializeField] float enemySpawnCount;
     float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 3;
-    float currency = 5;
-    float prevCurrency = 0;
+    int currency = 7;
+    int currentWave;
 
     WaitForSeconds enemySpawnTimer_wfs;
 
     [SerializeField] Transform spawnPosition;
-    [SerializeField] Transform endPosition;
+    [SerializeField] List<Transform> endPositions = new List<Transform>();
 
     [SerializeField] GameObject enemyPrefab;
 
-    [SerializeField] TextMeshProUGUI currencyText;
+    [SerializeField] VoidEventChannel onEndWave_EventChannel;
 
     // Properties
-    public float Kills
-    {
-        get => currency;
-        set => currency = value;
-    }
 
     // Start is called before the first frame update
     void Awake()
@@ -49,30 +43,53 @@ public class GameManager : MonoBehaviour
         }
 
         enemySpawnTimer_wfs = new WaitForSeconds(enemySpawnTimer);
-
-        LoadNextAttackPhase();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(prevCurrency != currency)
+        /*if(prevCurrency != currency)
         {
             currencyText.text = "Currency: " + currency.ToString();
             prevCurrency = currency;
-        }
+        }*/
     }
 
     [ContextMenu("Start Wave")]
-    public void OnStartAttackPhase()
+    public void OnStartAttackPhase(VoidEvent ctx)
     {
-        currentEnemyCount = enemySpawnCount;
+        if(currentEnemyCount != 0)
+        {
+            return;
+        }
+        LoadNextAttackPhase();
+        OnWaveEnd();
         StartCoroutine(SpawnWave());
     }
+
+    void DecreaseTimer()
+    {
+        if(enemySpawnTimer <= .25f)
+        {
+            return;
+        }
+        enemySpawnTimer -= .25f;
+        enemySpawnTimer_wfs = new WaitForSeconds(enemySpawnTimer);
+
+    }
+
 
     void LoadNextAttackPhase()
     {
         enemySpawnCount += enemyIncreasingCount;
+        DecreaseTimer();
+        currentEnemyCount = enemySpawnCount;
+
+    }
+
+    void OnWaveEnd()
+    {
+        onEndWave_EventChannel.CallEvent(new());
     }
 
     void OnStartBuildPhase()
@@ -82,30 +99,51 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
+        Debug.Log("spawn wave");
         for(int i = 0; i < enemySpawnCount; i++)
         {
             EnemyAI enemy = Instantiate(enemyPrefab, spawnPosition.position, Quaternion.identity).GetComponent<EnemyAI>();
-            enemy.OnSpawn(endPosition);
+            enemy.OnSpawn(endPositions[Random.Range(0,2)]);
             yield return enemySpawnTimer_wfs;
         }
     }
 
+    float lastFrameCount = -1;
     public void OnEnemyDeath(FloatEvent ctx)
     {
+        if(lastFrameCount == Time.frameCount)
+        {
+            return;
+        }
+
+
+        lastFrameCount = Time.frameCount;
         // Increment the currency and display the updated value
-        currency += ctx.FloatValue;
-        currencyText.text = "Currency: " + currency.ToString();
+        currency += (int)ctx.FloatValue;
+        //currencyText.text = "Currency: " + currency.ToString();
 
         currentEnemyCount--;
         if(currentEnemyCount == 0)
         {
+            OnWaveEnd();
             Debug.Log("Wave Over");
         }
     }
 
-    public float Currency
+    //Restarts scene on death
+    public void OnMainTowerDeath(VoidEvent ctx)
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public int Currency
     {
         get { return currency; }
-        set { currency -= value; }
+        set { currency = value; }
+    }
+
+    public int CurrentWave
+    {
+        get { return currentWave; }
     }
 }
