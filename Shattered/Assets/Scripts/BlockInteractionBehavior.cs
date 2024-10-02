@@ -54,8 +54,8 @@ public class BlockInteractionBehavior : MonoBehaviour, IInteractable
         {
             gm.GetComponent<GameManager>().Kills -= 5; // Take 5 currency away
             canInteract = false; // Deactivate the interactable
-            Instantiate(prefab, transform.position, Quaternion.identity); // Create the tower
-            mR.enabled = false; // Deactivate the collision detection
+            Instantiate(prefab, this.transform.position, Quaternion.identity); // Create the tower
+            mR.enabled = false; // Deactivate the mesh of the green cube
         }
     }
 }

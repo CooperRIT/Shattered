@@ -7,7 +7,6 @@ public class TowerSpawn : MonoBehaviour
 {
     // Variables
     public bool menuActive = false;
-    private bool buttonClicked = false;
 
     [SerializeField] GameObject menuUI;
 
