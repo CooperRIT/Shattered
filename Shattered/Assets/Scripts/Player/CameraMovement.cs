@@ -16,7 +16,7 @@ public class CameraMovement : MonoBehaviour
     }
 
     float maxX = 90f;                            // Maximum vertical look limit
-    [SerializeField] float sensitivity = 100f;   // Mouse sensitivity
+    float sensitivity;   // Mouse sensitivity
 
     float xRotation;                             // Vertical rotation tracking
     float yRotation;                             // Horizontal rotation tracking
@@ -27,6 +27,8 @@ public class CameraMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sensitivity = GameManager.instance.StartingPlayerSens;
+
         // Store the camera transform
         cameraTransform = transform.parent;
 
@@ -59,5 +61,10 @@ public class CameraMovement : MonoBehaviour
 
         // Apply vertical rotation directly to the camera for up/down look
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);  // Correct local rotation for camera
+    }
+
+    public void OnChangeSens(FloatEvent floatEvent)
+    {
+        sensitivity = floatEvent.FloatValue;
     }
 }

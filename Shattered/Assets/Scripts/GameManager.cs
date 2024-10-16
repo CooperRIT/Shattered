@@ -6,12 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Player Info")]
     [SerializeField] Transform player;
 
     public Transform Player { get { return player; } }
 
+    [SerializeField] float startingPlayerSens;
+
     public static GameManager instance;
 
+    [Header("Enemy Info")]
     [SerializeField] float enemySpawnCount;
     float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
@@ -145,5 +149,10 @@ public class GameManager : MonoBehaviour
     public int CurrentWave
     {
         get { return currentWave; }
+    }
+
+    public float StartingPlayerSens
+    {
+        get { return startingPlayerSens; }
     }
 }

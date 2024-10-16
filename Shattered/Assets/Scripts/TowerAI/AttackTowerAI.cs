@@ -2,29 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackTowerAI : MonoBehaviour, ICanDamage
+public class AttackTowerAI : BaseTowerAI, ICanDamage
 {
-    /*
-     * Script implimentation is temporary, but serves it purpose for now
-     * The duplication of code is not to my liking, but is a nesissary evil for now
-     */
-
     [SerializeField] List<EnemyAI> enemies = new List<EnemyAI>();
 
     [SerializeField] GameObject bullet_Prefab;
 
-    Transform target;
-
-    float timer;
-    [SerializeField] float timerAmount = 5;
+    protected Transform target;
 
     [SerializeField] Transform shootPoint;
 
-    float towerDamage = 4;
+    [SerializeField] float towerDamage = 4;
 
     public float Damage => towerDamage;
 
     [SerializeField] float randomOffset;
+
+    //IAttackBehavior attackBehavior;
 
     private void Awake()
     {
@@ -74,7 +68,7 @@ public class AttackTowerAI : MonoBehaviour, ICanDamage
         }
     }
 
-    void FireProjectile()
+    public void FireProjectile()
     {
         //Make sure to have enemies destroy themselves in late update to avoid double destroy
         while (enemies[0] == null)
@@ -85,6 +79,9 @@ public class AttackTowerAI : MonoBehaviour, ICanDamage
                 return;
             }
         }
+
+        //Future implimentation
+        //attackBehavior.AttackBehavior();
 
         target = enemies[0].transform;
 
@@ -97,6 +94,11 @@ public class AttackTowerAI : MonoBehaviour, ICanDamage
 
         projectile.LookAt(target.transform.position);
     }
+
+    public override void SpecialBehavior()
+    {
+        //TowerCodeHere
+    }
 }
 
 public interface IDamageable
@@ -106,4 +108,9 @@ public interface IDamageable
 public interface ICanDamage
 {
     public float Damage { get; }
+}
+
+public interface IAttackBehavior
+{
+    public void AttackBehavior();
 }
