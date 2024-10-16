@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class ControlMapping : MonoBehaviour
@@ -10,6 +11,7 @@ public class ControlMapping : MonoBehaviour
     PlayerMovement playerMovement;
     [SerializeField] CameraMovement cameraMovement;
     [SerializeField] PlayerInteractor playerInteractor;
+    [SerializeField] VoidEventChannel nextWave_EventChannel;
 
     private void Awake()
     {
@@ -29,6 +31,9 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.Enable();
         mainPlayerControls.BasicControls.Interact.performed += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
         mainPlayerControls.BasicControls.Interact.canceled += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
+        mainPlayerControls.BasicControls.NextWave.performed += (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new());};
+        mainPlayerControls.BasicControls.Restart.performed += (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(0); };
+
     }
 
     private void OnDisable()
@@ -36,5 +41,7 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.Disable();
         mainPlayerControls.BasicControls.Interact.performed -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
         mainPlayerControls.BasicControls.Interact.canceled -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
+        mainPlayerControls.BasicControls.NextWave.performed -= (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new()); };
+        mainPlayerControls.BasicControls.Restart.performed -= (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(0); };
     }
 }

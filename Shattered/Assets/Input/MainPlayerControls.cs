@@ -44,6 +44,24 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextWave"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b4374ae-4d84-4b20-bdf3-808004cde994"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ab9bd54-790e-4076-8b06-600a5839ab31"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,6 +141,28 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4196a373-f2fe-44b2-b4cd-52dff61e7032"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextWave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c78f468d-a0ea-4de7-92fc-24ced268170a"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -161,6 +201,8 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
         m_BasicControls = asset.FindActionMap("BasicControls", throwIfNotFound: true);
         m_BasicControls_WASD = m_BasicControls.FindAction("WASD", throwIfNotFound: true);
         m_BasicControls_Interact = m_BasicControls.FindAction("Interact", throwIfNotFound: true);
+        m_BasicControls_NextWave = m_BasicControls.FindAction("NextWave", throwIfNotFound: true);
+        m_BasicControls_Restart = m_BasicControls.FindAction("Restart", throwIfNotFound: true);
         // MouseControls
         m_MouseControls = asset.FindActionMap("MouseControls", throwIfNotFound: true);
         m_MouseControls_MousePosition = m_MouseControls.FindAction("MousePosition", throwIfNotFound: true);
@@ -227,12 +269,16 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
     private List<IBasicControlsActions> m_BasicControlsActionsCallbackInterfaces = new List<IBasicControlsActions>();
     private readonly InputAction m_BasicControls_WASD;
     private readonly InputAction m_BasicControls_Interact;
+    private readonly InputAction m_BasicControls_NextWave;
+    private readonly InputAction m_BasicControls_Restart;
     public struct BasicControlsActions
     {
         private @MainPlayerControls m_Wrapper;
         public BasicControlsActions(@MainPlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @WASD => m_Wrapper.m_BasicControls_WASD;
         public InputAction @Interact => m_Wrapper.m_BasicControls_Interact;
+        public InputAction @NextWave => m_Wrapper.m_BasicControls_NextWave;
+        public InputAction @Restart => m_Wrapper.m_BasicControls_Restart;
         public InputActionMap Get() { return m_Wrapper.m_BasicControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -248,6 +294,12 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @NextWave.started += instance.OnNextWave;
+            @NextWave.performed += instance.OnNextWave;
+            @NextWave.canceled += instance.OnNextWave;
+            @Restart.started += instance.OnRestart;
+            @Restart.performed += instance.OnRestart;
+            @Restart.canceled += instance.OnRestart;
         }
 
         private void UnregisterCallbacks(IBasicControlsActions instance)
@@ -258,6 +310,12 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @NextWave.started -= instance.OnNextWave;
+            @NextWave.performed -= instance.OnNextWave;
+            @NextWave.canceled -= instance.OnNextWave;
+            @Restart.started -= instance.OnRestart;
+            @Restart.performed -= instance.OnRestart;
+            @Restart.canceled -= instance.OnRestart;
         }
 
         public void RemoveCallbacks(IBasicControlsActions instance)
@@ -325,6 +383,8 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
     {
         void OnWASD(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnNextWave(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
     public interface IMouseControlsActions
     {

@@ -2,31 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackTowerAI : MonoBehaviour
+//Class that holds values that support towers can buff
+[System.Serializable]
+public class BuffableStats
 {
-    /*
-     * Script implimentation is temporary, but serves it purpose for now
-     * The duplication of code is not to my liking, but is a nesissary evil for now
-     */
+    public float towerDamage;
+    public float attackTime;
+
+    public float AttackTime
+    {
+        get { return attackTime; }
+        set { attackTime = value; }
+    }
+    public float TowerDamage
+    {
+        get { return towerDamage; }
+        set { towerDamage = value; }
+    }
+}
+
+public class AttackTowerAI : BaseTowerAI, ICanDamage
+{
+    //Serialize Version of the class that holds these values
+    [SerializeField] BuffableStats buffableStats = new BuffableStats();
+
+    float timerAmount => buffableStats.AttackTime;
+
+    public float Damage => buffableStats.TowerDamage;
 
     [SerializeField] List<EnemyAI> enemies = new List<EnemyAI>();
 
     [SerializeField] GameObject bullet_Prefab;
 
-    Transform target;
-
-    float timer;
-    [SerializeField] float timerAmount = 5;
+    protected Transform target;
 
     [SerializeField] Transform shootPoint;
 
-    float towerDamage = 4;
+    float timer;
+    
+
+    [SerializeField] float randomOffset;
+
+    //IAttackBehavior attackBehavior;
+
+    private void Awake()
+    {
+        randomOffset = Random.Range(0.0f, .3f);
+    }
 
     // Update is called once per frame
     void Update()
     {
         if(enemies.Count == 0)
         {
+            timer = timer < Time.time ? randomOffset + Time.time : timer;
             return;
         }
 
@@ -64,7 +93,7 @@ public class AttackTowerAI : MonoBehaviour
         }
     }
 
-    void FireProjectile()
+    public void FireProjectile()
     {
         //Make sure to have enemies destroy themselves in late update to avoid double destroy
         while (enemies[0] == null)
@@ -76,20 +105,42 @@ public class AttackTowerAI : MonoBehaviour
             }
         }
 
+        //Future implimentation
+        //attackBehavior.AttackBehavior();
+
         target = enemies[0].transform;
 
         //Temp Cast
-        IDamageable damagable = (IDamageable)enemies[0];
-        damagable.TakeDamage(towerDamage);
+        IDamageable damagable = enemies[0];
+        damagable.TakeDamage(Damage);
 
         //Shoot Bullet For Visual Sake
         Transform projectile = Instantiate(bullet_Prefab, shootPoint.position, Quaternion.identity).transform;
 
         projectile.LookAt(target.transform.position);
     }
+
+    public override void SpecialBehavior()
+    {
+        //TowerCodeHere
+    }
+    
+    public BuffableStats BuffableStats
+    {
+        get { return buffableStats; }
+    }
 }
 
 public interface IDamageable
 {
     void TakeDamage(float damage);
+}
+public interface ICanDamage
+{
+    public float Damage { get; }
+}
+
+public interface IAttackBehavior
+{
+    public void AttackBehavior();
 }
