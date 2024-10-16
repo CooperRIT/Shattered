@@ -38,12 +38,12 @@ public class SupportTowerAI : BaseTowerAI, ICanBuff
 
     public void ApplyBuffs(BuffableStats buffableStats)
     {
-        buffableStats.attackTime -= 1;
+        buffableStats.AttackTime -= 1;
     }
 
     public void RemoveBuffs(BuffableStats buffableStats)
     {
-        buffableStats.towerDamage += 1;
+        buffableStats.AttackTime += 1;
     }
 }
 

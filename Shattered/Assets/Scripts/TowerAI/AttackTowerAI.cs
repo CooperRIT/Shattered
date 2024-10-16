@@ -8,6 +8,17 @@ public class BuffableStats
 {
     public float towerDamage;
     public float attackTime;
+
+    public float AttackTime
+    {
+        get { return attackTime; }
+        set { attackTime = value; }
+    }
+    public float TowerDamage
+    {
+        get { return towerDamage; }
+        set { towerDamage = value; }
+    }
 }
 
 public class AttackTowerAI : BaseTowerAI, ICanDamage
@@ -15,9 +26,9 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
     //Serialize Version of the class that holds these values
     [SerializeField] BuffableStats buffableStats = new BuffableStats();
 
-    float timerAmount => buffableStats.attackTime;
+    float timerAmount => buffableStats.AttackTime;
 
-    public float Damage => buffableStats.towerDamage;
+    public float Damage => buffableStats.TowerDamage;
 
     [SerializeField] List<EnemyAI> enemies = new List<EnemyAI>();
 
