@@ -7,9 +7,6 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseTowerAI : MonoBehaviour, IInteractable
 {
-    protected float timer;
-    [SerializeField] protected float timerAmount;
-
     protected bool canInteract;
 
     public bool CanInteract 

@@ -9,7 +9,7 @@ public class TowerSpawn : MonoBehaviour
 {
 
     [SerializeField] GameObject menuUI;
-    [SerializeField] GameObject towerPrefab;
+    [SerializeField] List<GameObject> towerPrefab = new List<GameObject>();
     [SerializeField] GameObject interactionBlock;
     [SerializeField] TextMeshProUGUI currencyText;
     [SerializeField] TextMeshProUGUI nextWaveText;
@@ -26,14 +26,14 @@ public class TowerSpawn : MonoBehaviour
         UpdateCurrencyText(placeHolder);
     }
 
-    public void SpawnTower()
+    public void SpawnTower(int towerIndex)
     {
         if (currentCurrency < tempTowerValue)
         {
             return;
         }
 
-        Instantiate(towerPrefab, interactionBlock.transform.position, Quaternion.identity);
+        Instantiate(towerPrefab[towerIndex], interactionBlock.transform.position, Quaternion.identity);
         GameManager.instance.Currency -= tempTowerValue;
         UpdateCurrencyText(placeHolder);
         interactionBlock.SetActive(false);

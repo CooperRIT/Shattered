@@ -2,17 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SupportTowerAI : MonoBehaviour
+public class SupportTowerAI : BaseTowerAI, ICanBuff
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
+    {
+        if(!other.CompareTag("Buffable"))
+        {
+            return;
+        }
+
+        if(other.transform.GetChild(0).TryGetComponent(out AttackTowerAI attackTower))
+        {
+            ApplyBuffs(attackTower.BuffableStats);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Buffable"))
+        {
+            return;
+        }
+
+        if (other.transform.GetChild(0).TryGetComponent(out AttackTowerAI attackTower))
+        {
+            RemoveBuffs(attackTower.BuffableStats);
+        }
+    }
+
+
+    public override void SpecialBehavior()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ApplyBuffs(BuffableStats buffableStats)
     {
-        
+        buffableStats.attackTime -= 1;
     }
+
+    public void RemoveBuffs(BuffableStats buffableStats)
+    {
+        buffableStats.towerDamage += 1;
+    }
+}
+
+public interface ICanBuff
+{
+    public void ApplyBuffs(BuffableStats buffableStats);
+    public void RemoveBuffs(BuffableStats buffableStats);
 }

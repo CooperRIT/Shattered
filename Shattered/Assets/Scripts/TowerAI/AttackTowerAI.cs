@@ -2,8 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that holds values that support towers can buff
+[System.Serializable]
+public class BuffableStats
+{
+    public float towerDamage;
+    public float attackTime;
+}
+
 public class AttackTowerAI : BaseTowerAI, ICanDamage
 {
+    //Serialize Version of the class that holds these values
+    [SerializeField] BuffableStats buffableStats = new BuffableStats();
+
+    float timerAmount => buffableStats.attackTime;
+
+    public float Damage => buffableStats.towerDamage;
+
     [SerializeField] List<EnemyAI> enemies = new List<EnemyAI>();
 
     [SerializeField] GameObject bullet_Prefab;
@@ -12,9 +27,8 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
 
     [SerializeField] Transform shootPoint;
 
-    [SerializeField] float towerDamage = 4;
-
-    public float Damage => towerDamage;
+    float timer;
+    
 
     [SerializeField] float randomOffset;
 
@@ -87,7 +101,7 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
 
         //Temp Cast
         IDamageable damagable = enemies[0];
-        damagable.TakeDamage(towerDamage);
+        damagable.TakeDamage(Damage);
 
         //Shoot Bullet For Visual Sake
         Transform projectile = Instantiate(bullet_Prefab, shootPoint.position, Quaternion.identity).transform;
@@ -98,6 +112,11 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
     public override void SpecialBehavior()
     {
         //TowerCodeHere
+    }
+    
+    public BuffableStats BuffableStats
+    {
+        get { return buffableStats; }
     }
 }
 
