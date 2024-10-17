@@ -2896,6 +2896,7 @@ MonoBehaviour:
   cameraMovement: {fileID: 1833845361}
   playerInteractor: {fileID: 1631015108}
   nextWave_EventChannel: {fileID: 11400000, guid: dfeaa0827dc5a2f41865239ea1ee0e3b, type: 2}
+  pauseMenu: {fileID: 1078076186}
 --- !u!114 &800204681
 MonoBehaviour:
   m_ObjectHideFlags: 0

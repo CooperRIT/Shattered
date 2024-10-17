@@ -9,38 +9,28 @@ public class PauseMenu : MonoBehaviour
 
     // Variables
     [SerializeField] GameObject menuUI;
-    private bool isPaused = false;
-    void Update()
-    {
-        if (true == false) // Putting a pin in this for now, will come back
-        {
-            if (!isPaused)
-            {
-                Pause();
-            }
-            else
-            {
-                Resume();
-            }
-        }
-    }
 
     public void Pause()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         menuUI.SetActive(true);
         Time.timeScale = 0.0f;
-        isPaused = true;
     }
 
     public void Resume()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         menuUI.SetActive(false);
         Time.timeScale = 1.0f;
-        isPaused = false;
     }
 
     public void ReturnToMenu()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("MainMenu");
     }
 

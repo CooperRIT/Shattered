@@ -71,6 +71,15 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""5528b7d2-5db6-4699-8b25-2a0b95f2a1b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,6 +192,17 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3c04026-e39b-441d-a637-bbfe47757f4a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -224,6 +244,7 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
         m_BasicControls_NextWave = m_BasicControls.FindAction("NextWave", throwIfNotFound: true);
         m_BasicControls_Restart = m_BasicControls.FindAction("Restart", throwIfNotFound: true);
         m_BasicControls_Attack = m_BasicControls.FindAction("Attack", throwIfNotFound: true);
+        m_BasicControls_Pause = m_BasicControls.FindAction("Pause", throwIfNotFound: true);
         // MouseControls
         m_MouseControls = asset.FindActionMap("MouseControls", throwIfNotFound: true);
         m_MouseControls_MousePosition = m_MouseControls.FindAction("MousePosition", throwIfNotFound: true);
@@ -293,6 +314,7 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_BasicControls_NextWave;
     private readonly InputAction m_BasicControls_Restart;
     private readonly InputAction m_BasicControls_Attack;
+    private readonly InputAction m_BasicControls_Pause;
     public struct BasicControlsActions
     {
         private @MainPlayerControls m_Wrapper;
@@ -302,6 +324,7 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
         public InputAction @NextWave => m_Wrapper.m_BasicControls_NextWave;
         public InputAction @Restart => m_Wrapper.m_BasicControls_Restart;
         public InputAction @Attack => m_Wrapper.m_BasicControls_Attack;
+        public InputAction @Pause => m_Wrapper.m_BasicControls_Pause;
         public InputActionMap Get() { return m_Wrapper.m_BasicControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -326,6 +349,9 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IBasicControlsActions instance)
@@ -345,6 +371,9 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IBasicControlsActions instance)
@@ -415,6 +444,7 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
         void OnNextWave(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IMouseControlsActions
     {
