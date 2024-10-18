@@ -12,6 +12,8 @@ public class PlayerSettings : MonoBehaviour
     [SerializeField] TextMeshProUGUI sensitvityTextValue;
     [SerializeField] FloatEventChannel sensitvityEventChannel;
 
+    float storeSens;
+
     private void Start()
     {
         sensitivitySlider.value = GameManager.instance.StartingPlayerSens;
@@ -26,6 +28,19 @@ public class PlayerSettings : MonoBehaviour
         sensitvityEventChannel.CallEvent(new(sensitivitySlider.value));
         int value = (int)sensitivitySlider.value;
         sensitvityTextValue.text = value.ToString();
+    }
+
+    public void ZeroSens()
+    {
+        storeSens = sensitivitySlider.value;
+        sensitivitySlider.value = 0;
+        UpdateSensitivty();
+    }
+
+    public void ReappleSens()
+    {
+        sensitivitySlider.value = storeSens;
+        UpdateSensitivty();
     }
 
 }

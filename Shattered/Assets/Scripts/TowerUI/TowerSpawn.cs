@@ -23,10 +23,13 @@ public class TowerSpawn : MonoBehaviour
 
     int currentCurrency => GameManager.instance.Currency;
 
+    PlayerSettings playerSettings;
+
     // Update is called once per frame
     void Awake()
     {
         UpdateCurrencyText(placeHolder);
+        playerSettings = GetComponent<PlayerSettings>();
     }
 
     public void SpawnTower(int towerIndex)
@@ -51,6 +54,7 @@ public class TowerSpawn : MonoBehaviour
 
         // Hide and deactivate the menu
         menuUI.SetActive(false);
+        playerSettings.ReappleSens();
     }
 
     public void OnOpenMenu(GameObjectEvent ctx)
@@ -59,6 +63,7 @@ public class TowerSpawn : MonoBehaviour
         interactionBlock = ctx.GameObjectRef;
         towerMenuCurrencyText.text = currencyText.text;
         OnMenutActivate();
+        playerSettings.ZeroSens();
     }
 
     void OnMenutActivate()
