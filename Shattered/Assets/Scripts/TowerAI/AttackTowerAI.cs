@@ -133,7 +133,7 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
 
 public interface IDamageable
 {
-    void TakeDamage(float damage);
+    public void TakeDamage(float damage);
 }
 public interface ICanDamage
 {

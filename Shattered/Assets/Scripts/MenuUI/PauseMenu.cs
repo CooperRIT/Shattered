@@ -37,6 +37,9 @@ public class PauseMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-        //UnityEditor.EditorApplication.isPlaying = false;
+//This allows you to check if we are in the unity editor without causing build errors
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

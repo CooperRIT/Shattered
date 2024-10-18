@@ -15,6 +15,8 @@ public class ControlMapping : MonoBehaviour
     [SerializeField] VoidEventChannel nextWave_EventChannel;
     [SerializeField] PauseMenu pauseMenu;
 
+    [SerializeField] bool canAttack => Camera.main != null;
+
     private void Awake()
     {
         mainPlayerControls = new MainPlayerControls();
@@ -37,7 +39,8 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.BasicControls.NextWave.performed += (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new());};
         mainPlayerControls.BasicControls.Restart.performed += (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
         mainPlayerControls.BasicControls.Pause.performed += (InputAction.CallbackContext ctx) => { pauseMenu.Pause(); };
-        mainPlayerControls.BasicControls.Attack.performed += (InputAction.CallbackContext ctx) => { playerAttack.Attack(playerAttack.CameraDirection); };
+        mainPlayerControls.BasicControls.Attack.performed += OnAttack;
+        mainPlayerControls.BasicControls.ChangeCamera.performed += OnChangeCamera;
 
     }
 
@@ -48,7 +51,22 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.BasicControls.Interact.canceled -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
         mainPlayerControls.BasicControls.NextWave.performed -= (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new()); };
         mainPlayerControls.BasicControls.Restart.performed -= (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
-        mainPlayerControls.BasicControls.Pause.performed += (InputAction.CallbackContext ctx) => { pauseMenu.Pause(); };
-        mainPlayerControls.BasicControls.Attack.performed -= (InputAction.CallbackContext ctx) => { playerAttack.Attack(playerAttack.CameraDirection); };
+        mainPlayerControls.BasicControls.Pause.performed -= (InputAction.CallbackContext ctx) => { pauseMenu.Pause(); };
+        mainPlayerControls.BasicControls.Attack.performed -= OnAttack;
+        mainPlayerControls.BasicControls.ChangeCamera.performed -= OnChangeCamera;
+    }
+
+    void OnChangeCamera(InputAction.CallbackContext ctx)
+    {
+        GameManager.instance.ChangeCamera();
+    }
+
+    void OnAttack(InputAction.CallbackContext ctx)
+    {
+        if (!canAttack)
+        {
+            return;
+        }
+        playerAttack.Attack();
     }
 }

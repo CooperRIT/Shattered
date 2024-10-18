@@ -24,7 +24,8 @@ public class PlayerSettings : MonoBehaviour
     public void UpdateSensitivty()
     {
         sensitvityEventChannel.CallEvent(new(sensitivitySlider.value));
-        sensitvityTextValue.text = sensitivitySlider.value.ToString();
+        int value = (int)sensitivitySlider.value;
+        sensitvityTextValue.text = value.ToString();
     }
 
 }

@@ -20,25 +20,34 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private Camera mainCamera;
 
-    private Vector3 cameraDirection;
-    public Vector3 CameraDirection { get { return cameraDirection; } }
+    private Vector3 cameraDirection => Camera.main.transform.forward;
+
+    private float timer;
+
+    [SerializeField] float timerAmmount = 5;
 
     void Awake()
     {
-        mainCamera = Camera.main;
+
     }
 
     void Update()
     {
-        cameraDirection = mainCamera.transform.forward;
+
     }
 
-    public void Attack(Vector3 direction)
+    public void Attack()
     {
-        // Instantiate the projectile at the fire point's position and rotation
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        if(timer > Time.time)
+        {
+            return;
+        }
 
-        bullet = projectile.GetComponent<PlayerBullet>();
-        bullet.SetDirection(direction);
+        // Instantiate the projectile at the fire point's position and rotation
+        Transform projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity).transform;
+
+        projectile.forward = cameraDirection;
+
+        timer = Time.time + timerAmmount;
     }
 }

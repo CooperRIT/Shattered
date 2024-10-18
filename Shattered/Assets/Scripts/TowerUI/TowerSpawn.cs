@@ -11,7 +11,10 @@ public class TowerSpawn : MonoBehaviour
     [SerializeField] GameObject menuUI;
     [SerializeField] List<GameObject> towerPrefab = new List<GameObject>();
     [SerializeField] GameObject interactionBlock;
+
     [SerializeField] TextMeshProUGUI currencyText;
+    [SerializeField] TextMeshProUGUI towerMenuCurrencyText;
+
     [SerializeField] TextMeshProUGUI nextWaveText;
 
     FloatEvent placeHolder = new FloatEvent();
@@ -54,6 +57,7 @@ public class TowerSpawn : MonoBehaviour
     {
         Debug.Log("hello");
         interactionBlock = ctx.GameObjectRef;
+        towerMenuCurrencyText.text = currencyText.text;
         OnMenutActivate();
     }
 
@@ -68,7 +72,6 @@ public class TowerSpawn : MonoBehaviour
     public void UpdateCurrencyText(FloatEvent ctx)
     {
         Invoke(nameof(CurrencyUpdate), .1f);
-        
     }
 
     public void DisplayWaveText(VoidEvent ctx)
@@ -79,5 +82,6 @@ public class TowerSpawn : MonoBehaviour
     void CurrencyUpdate()
     {
         currencyText.text = $"<b>Currency:</b> {currentCurrency}";
+        towerMenuCurrencyText.text = currencyText.text;
     }
 }

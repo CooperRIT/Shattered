@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
 
     public Transform Player { get { return player; } }
 
+    private GameObject playerCamera;
+
+    [SerializeField] GameObject overheadCamera;
+
     [SerializeField] float startingPlayerSens;
 
     public static GameManager instance;
@@ -20,7 +24,7 @@ public class GameManager : MonoBehaviour
     float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 3;
-    int currency = 20;
+    int currency = 7;
     int currentWave;
 
     WaitForSeconds enemySpawnTimer_wfs;
@@ -47,6 +51,7 @@ public class GameManager : MonoBehaviour
         }
 
         enemySpawnTimer_wfs = new WaitForSeconds(enemySpawnTimer);
+        playerCamera = Camera.main.gameObject;
     }
 
     // Update is called once per frame
@@ -138,6 +143,12 @@ public class GameManager : MonoBehaviour
     public void OnMainTowerDeath(VoidEvent ctx)
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void ChangeCamera()
+    {
+        playerCamera.SetActive(overheadCamera.activeSelf);
+        overheadCamera.SetActive(!playerCamera.activeSelf);
     }
 
     public int Currency

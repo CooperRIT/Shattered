@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseBullet : MonoBehaviour
 {
-    float deathTimer = 5;
+    float deathTimer = .3f;
 
     [SerializeField] float bulletSpeed = 4;
     // Start is called before the first frame update
@@ -17,5 +17,14 @@ public class BaseBullet : MonoBehaviour
     void Update()
     {
         transform.position += transform.forward * Time.deltaTime * bulletSpeed;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(!other.CompareTag("Enemy"))
+        {
+            return;
+        }
+
     }
 }

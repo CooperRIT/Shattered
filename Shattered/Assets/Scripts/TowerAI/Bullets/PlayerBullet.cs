@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBullet : MonoBehaviour
+public class PlayerBullet : MonoBehaviour, ICanDamage
 {
     private float lifeTime = 5f; // Time in seconds before the projectile is destroyed if it doesn't hit anything
 
     private float speed = 10f;
 
-    private Vector3 moveDirection;
+    [SerializeField] private float bulletDamage = 1;
 
-
-    public void SetDirection(Vector3 direction)
-    {
-        moveDirection = direction.normalized;
-    }
+    public float Damage => bulletDamage;
 
     void Start()
     {
@@ -25,16 +21,19 @@ public class PlayerBullet : MonoBehaviour
     void Update()
     {
         // Move the projectile in the set direction
-        transform.position += moveDirection * speed * Time.deltaTime;
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
-    //Cooper- This is a fine approach, but you will need to use the interface implimentation that enemies have in order to properly dispose of them
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
-        // Check if the projectile collided with an object tagged as "Enemy" 
-        if (other.CompareTag("Enemy"))
+        if (!other.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject);
+            return;
+        }
+
+        if (other.gameObject.TryGetComponent(out IDamageable damageable))
+        {
+            damageable.TakeDamage(Damage);
             Destroy(gameObject);
         }
     }

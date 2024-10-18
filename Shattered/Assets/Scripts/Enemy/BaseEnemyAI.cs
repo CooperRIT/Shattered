@@ -23,10 +23,11 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = speed;
         currencyValue_FloatEvent.FloatValue = currencyValue;
     }
 
-    public virtual void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         health -= damage;
         if (health <= 0)
