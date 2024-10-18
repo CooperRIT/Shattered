@@ -68,14 +68,9 @@ public class CameraMovement : MonoBehaviour
         sensitivity = floatEvent.FloatValue;
     }
 
-    Vector3 currentForward;
+    Vector3 currentForward = Vector3.forward;
     private void OnEnable()
     {
-        if(currentForward == Vector3.zero)
-        {
-            return;
-        }
-
         parentTransform.forward = currentForward;
     }
     private void OnDisable()

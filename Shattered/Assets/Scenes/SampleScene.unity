@@ -2256,7 +2256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 423776148}
   overheadCamera: {fileID: 1889678397}
-  startingPlayerSens: 20
+  startingPlayerSens: 100
   enemySpawnCount: 0
   currentEnemyCount: 0
   spawnPosition: {fileID: 318764392}
@@ -4265,7 +4265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1.5
+  m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
@@ -4453,6 +4453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuUI: {fileID: 813123827}
+  towerUI: {fileID: 2142910915}
 --- !u!1 &1082313326
 GameObject:
   m_ObjectHideFlags: 0
@@ -6145,9 +6146,9 @@ Transform:
   m_GameObject: {fileID: 1631015103}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.42}
-  m_LocalScale: {x: 1.27, y: 2.33, z: 1.48}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 423776148}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
