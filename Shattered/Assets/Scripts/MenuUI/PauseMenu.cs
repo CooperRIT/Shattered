@@ -9,9 +9,15 @@ public class PauseMenu : MonoBehaviour
 
     // Variables
     [SerializeField] GameObject menuUI;
+    [SerializeField] GameObject towerUI;
 
     public void Pause()
     {
+        if(towerUI.activeSelf)
+        {
+            return;
+        }
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 

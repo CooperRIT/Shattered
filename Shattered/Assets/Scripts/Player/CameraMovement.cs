@@ -25,7 +25,7 @@ public class CameraMovement : MonoBehaviour
     Vector2 currentVelocity;                     // Used for smooth damp calculations
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         sensitivity = GameManager.instance.StartingPlayerSens;
 
@@ -66,5 +66,21 @@ public class CameraMovement : MonoBehaviour
     public void OnChangeSens(FloatEvent floatEvent)
     {
         sensitivity = floatEvent.FloatValue;
+    }
+
+    Vector3 currentForward;
+    private void OnEnable()
+    {
+        if(currentForward == Vector3.zero)
+        {
+            return;
+        }
+
+        parentTransform.forward = currentForward;
+    }
+    private void OnDisable()
+    {
+        currentForward = parentTransform.forward;
+        parentTransform.forward = Vector3.forward;
     }
 }

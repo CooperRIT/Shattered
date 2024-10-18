@@ -20,6 +20,8 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
 
     public float Damage => health;
 
+    bool isDead;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -47,6 +49,12 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
 
     public virtual void OnDeath()
     {
+        if(isDead)
+        {
+            return;
+        }
+        isDead = true;
+
         currencyValue_FloatEvent.FloatValue = currencyValue;
         onEnemyDeath_FloatEventChannel.CallEvent(currencyValue_FloatEvent);
         Destroy(gameObject);

@@ -21,10 +21,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Enemy Info")]
     [SerializeField] float enemySpawnCount;
-    float enemyIncreasingCount = 5;
+    float enemyIncreasingCount = 20;
     [SerializeField] float currentEnemyCount;
-    float enemySpawnTimer = 3;
-    int currency = 7;
+    float enemySpawnTimer = 1;
+    int currency = 20;
     int currentWave;
 
     WaitForSeconds enemySpawnTimer_wfs;
@@ -108,7 +108,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
-        Debug.Log("spawn wave");
         for(int i = 0; i < enemySpawnCount; i++)
         {
             EnemyAI enemy = Instantiate(enemyPrefab, spawnPosition.position, Quaternion.identity).GetComponent<EnemyAI>();
@@ -132,7 +131,7 @@ public class GameManager : MonoBehaviour
         //currencyText.text = "Currency: " + currency.ToString();
 
         currentEnemyCount--;
-        if(currentEnemyCount == 0)
+        if(currentEnemyCount <= 0)
         {
             OnWaveEnd();
             Debug.Log("Wave Over");
@@ -144,6 +143,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
 
     public void ChangeCamera()
     {
