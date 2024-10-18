@@ -2256,7 +2256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 423776148}
   overheadCamera: {fileID: 1889678397}
-  startingPlayerSens: 100
+  startingPlayerSens: 20
   enemySpawnCount: 0
   currentEnemyCount: 0
   spawnPosition: {fileID: 318764392}
@@ -4265,7 +4265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
+  m_ScaleFactor: 1.5
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
