@@ -12,39 +12,33 @@ public class PlayerAttack : MonoBehaviour
 
     //Spawn Point
     [SerializeField]
-    private Transform firePoint; 
+    private Transform firePoint;
 
-    //Cooper - We alerady have a reference to this in the player controls script, please use that script to map actions
-    private MainPlayerControls mainPlayerControls;
-    //private InputAction attackAction;
+    [SerializeField]
+    private PlayerBullet bullet;
+
+    [SerializeField]
+    private Camera mainCamera;
+
+    private Vector3 cameraDirection;
+    public Vector3 CameraDirection { get { return cameraDirection; } }
 
     void Awake()
     {
-        mainPlayerControls = new MainPlayerControls();
+        mainCamera = Camera.main;
     }
 
-    void OnEnable()
+    void Update()
     {
-        mainPlayerControls.BasicControls.Enable();
-        mainPlayerControls.BasicControls.Attack.performed += (InputAction.CallbackContext ctx) => { Attack(); };
+        cameraDirection = mainCamera.transform.forward;
     }
 
-    void OnDisable()
-    {
-        mainPlayerControls.BasicControls.Attack.performed -= (InputAction.CallbackContext ctx) => { Attack(); };
-        mainPlayerControls.BasicControls.Disable();
-    }
-
-    //Cooper - I assume the code below is the remnants of something you were trying to create, please just use 1 method for this
-
-    void OnAttack(InputAction.CallbackContext context)
-    {
-        Attack();
-    }
-
-    void Attack()
+    public void Attack(Vector3 direction)
     {
         // Instantiate the projectile at the fire point's position and rotation
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+        bullet = projectile.GetComponent<PlayerBullet>();
+        bullet.SetDirection(direction);
     }
 }

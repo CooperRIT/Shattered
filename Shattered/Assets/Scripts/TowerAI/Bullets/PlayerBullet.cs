@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
-    //Cooper - Try to make variables like this serialized unless you want this acessed from another script
-    public float lifeTime = 5f; // Time in seconds before the projectile is destroyed if it doesn't hit anything
+    private float lifeTime = 5f; // Time in seconds before the projectile is destroyed if it doesn't hit anything
 
     private float speed = 10f;
 
     private Vector3 moveDirection;
 
 
-    //Cooper - I see your thought process, I reccomend making the projectile look at the camera's forward and then modifying it's position based on the projectiles forward
+    public void SetDirection(Vector3 direction)
+    {
+        moveDirection = direction.normalized;
+    }
+
     void Start()
     {
-        // Set the direction of the projectile (firePoint's right direction)
-        moveDirection = transform.right;
-
         // Destroy the projectile after 'lifeTime' seconds to prevent memory leaks
         Destroy(gameObject, lifeTime);
     }

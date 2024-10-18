@@ -9,6 +9,7 @@ public class ControlMapping : MonoBehaviour
 {
     MainPlayerControls mainPlayerControls;
     PlayerMovement playerMovement;
+    PlayerAttack playerAttack;
     [SerializeField] CameraMovement cameraMovement;
     [SerializeField] PlayerInteractor playerInteractor;
     [SerializeField] VoidEventChannel nextWave_EventChannel;
@@ -18,6 +19,7 @@ public class ControlMapping : MonoBehaviour
     {
         mainPlayerControls = new MainPlayerControls();
         playerMovement = GetComponent<PlayerMovement>();
+        playerAttack = GetComponent<PlayerAttack>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -35,6 +37,7 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.BasicControls.NextWave.performed += (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new());};
         mainPlayerControls.BasicControls.Restart.performed += (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
         mainPlayerControls.BasicControls.Pause.performed += (InputAction.CallbackContext ctx) => { pauseMenu.Pause(); };
+        mainPlayerControls.BasicControls.Attack.performed += (InputAction.CallbackContext ctx) => { playerAttack.Attack(playerAttack.CameraDirection); };
 
     }
 
@@ -46,5 +49,6 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.BasicControls.NextWave.performed -= (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new()); };
         mainPlayerControls.BasicControls.Restart.performed -= (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
         mainPlayerControls.BasicControls.Pause.performed += (InputAction.CallbackContext ctx) => { pauseMenu.Pause(); };
+        mainPlayerControls.BasicControls.Attack.performed -= (InputAction.CallbackContext ctx) => { playerAttack.Attack(playerAttack.CameraDirection); };
     }
 }
