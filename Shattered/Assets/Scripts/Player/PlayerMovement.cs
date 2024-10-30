@@ -42,5 +42,6 @@ public class PlayerMovement : MonoBehaviour
         Vector3 dampeningForce = rb.velocity * dragRate;
 
         rb.AddForce((force - dampeningForce) * (fixedUpdateMultiplier * Time.fixedDeltaTime));
+        //rb.AddForce(force);
     }
 }
