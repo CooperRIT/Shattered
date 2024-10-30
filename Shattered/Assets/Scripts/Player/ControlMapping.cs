@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class ControlMapping : MonoBehaviour
 {
     MainPlayerControls mainPlayerControls;
     PlayerMovement playerMovement;
+    PlayerAttack playerAttack;
     [SerializeField] CameraMovement cameraMovement;
     [SerializeField] PlayerInteractor playerInteractor;
+    [SerializeField] VoidEventChannel nextWave_EventChannel;
+    [SerializeField] PauseMenu pauseMenu;
+
+    [SerializeField] bool canAttack => Camera.main != null;
 
     private void Awake()
     {
         mainPlayerControls = new MainPlayerControls();
         playerMovement = GetComponent<PlayerMovement>();
+        playerAttack = GetComponent<PlayerAttack>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -29,6 +36,12 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.Enable();
         mainPlayerControls.BasicControls.Interact.performed += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
         mainPlayerControls.BasicControls.Interact.canceled += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
+        mainPlayerControls.BasicControls.NextWave.performed += (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new());};
+        mainPlayerControls.BasicControls.Restart.performed += (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
+        mainPlayerControls.BasicControls.Pause.performed += (InputAction.CallbackContext ctx) => { pauseMenu.Pause(); };
+        mainPlayerControls.BasicControls.Attack.performed += OnAttack;
+        mainPlayerControls.BasicControls.ChangeCamera.performed += OnChangeCamera;
+
     }
 
     private void OnDisable()
@@ -36,5 +49,24 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.Disable();
         mainPlayerControls.BasicControls.Interact.performed -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
         mainPlayerControls.BasicControls.Interact.canceled -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
+        mainPlayerControls.BasicControls.NextWave.performed -= (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new()); };
+        mainPlayerControls.BasicControls.Restart.performed -= (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
+        mainPlayerControls.BasicControls.Pause.performed -= (InputAction.CallbackContext ctx) => { pauseMenu.Pause(); };
+        mainPlayerControls.BasicControls.Attack.performed -= OnAttack;
+        mainPlayerControls.BasicControls.ChangeCamera.performed -= OnChangeCamera;
+    }
+
+    void OnChangeCamera(InputAction.CallbackContext ctx)
+    {
+        GameManager.instance.ChangeCamera();
+    }
+
+    void OnAttack(InputAction.CallbackContext ctx)
+    {
+        if (!canAttack)
+        {
+            return;
+        }
+        playerAttack.Attack();
     }
 }

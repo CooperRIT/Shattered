@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Interactable
   - Enemy
+  - Buffable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

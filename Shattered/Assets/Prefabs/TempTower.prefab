@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 983727538677636518}
   - component: {fileID: 6232404628502132769}
   - component: {fileID: 1221929672410795589}
-  - component: {fileID: 1827892673812223497}
+  - component: {fileID: 3022416859235055360}
   m_Layer: 0
   m_Name: TempTower
-  m_TagString: Untagged
+  m_TagString: Buffable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201211383388532636}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2432090755550338912, guid: b133e4e86a9d2b64ca4b218e5dc43e84, type: 3}
 --- !u!23 &1221929672410795589
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -86,8 +86,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &1827892673812223497
-CapsuleCollider:
+--- !u!65 &3022416859235055360
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -104,11 +104,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 3
+  m_Size: {x: 1.999999, y: 6.409158, z: 1.9460933}
+  m_Center: {x: -0.00000047683716, y: 3.239021, z: 0.020288944}
 --- !u!1 &2432991171843537742
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +132,7 @@ Transform:
   m_GameObject: {fileID: 2432991171843537742}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.214, z: 0}
+  m_LocalPosition: {x: 0, y: 5.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -185,9 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e33ac5ab007db47ae73d206b8d342f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buffableStats:
+    towerDamage: 1
+    attackTime: 4
+  enemies: []
   bullet_Prefab: {fileID: 6473923742544353274, guid: 272c0b6df7a8d2f43b1d104c72e94e29, type: 3}
-  timerAmount: 5
   shootPoint: {fileID: 5847513404949502424}
+  randomOffset: 0
 --- !u!135 &4592182602158629515
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -207,5 +209,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2.81
+  m_Radius: 13.31
   m_Center: {x: 0, y: 0, z: 0}
