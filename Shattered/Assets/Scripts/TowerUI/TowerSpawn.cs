@@ -19,7 +19,7 @@ public class TowerSpawn : MonoBehaviour
 
     FloatEvent placeHolder = new FloatEvent();
 
-    int tempTowerValue = 5;
+    int tempTowerValue = 20;
 
     int currentCurrency => GameManager.instance.Currency;
 
