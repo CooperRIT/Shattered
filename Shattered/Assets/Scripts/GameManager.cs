@@ -21,10 +21,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Enemy Info")]
     [SerializeField] float enemySpawnCount;
-    float enemyIncreasingCount = 20;
+    float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 1;
-    int currency = 20;
+    int currency = 30;
     int currentWave;
 
     WaitForSeconds enemySpawnTimer_wfs;
@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
     void LoadNextAttackPhase()
     {
         enemySpawnCount += enemyIncreasingCount;
+        enemyIncreasingCount += 3;
         DecreaseTimer();
         currentEnemyCount = enemySpawnCount;
 
