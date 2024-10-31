@@ -186,11 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 423776148}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5829947
+      value: 0.58299464
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.089389436
+      value: 0.0893895
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.y
@@ -198,7 +198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.12238897
+      value: 0.122388914
       objectReference: {fileID: 0}
     - target: {fileID: 6093162637702929021, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_Name
@@ -536,8 +536,9 @@ GameObject:
   - component: {fileID: 98935403}
   - component: {fileID: 98935402}
   - component: {fileID: 98935401}
+  - component: {fileID: 98935404}
   m_Layer: 5
-  m_Name: DPS Button (1)
+  m_Name: Support Tower Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -608,10 +609,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1078076181}
-        m_TargetAssemblyTypeName: TowerSpawn, Assembly-CSharp
-        m_MethodName: SpawnTower
-        m_Mode: 3
+      - m_Target: {fileID: 98935404}
+        m_TargetAssemblyTypeName: TowerValues, Assembly-CSharp
+        m_MethodName: OnSpawnTower
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -658,6 +659,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98935399}
   m_CullTransparentMesh: 1
+--- !u!114 &98935404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98935399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf10deddf6931241bf665ff04c63981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerSpawn: {fileID: 1078076181}
+  towerInformation:
+    currencyValue: 5
+    towerIndex: 1
 --- !u!1 &110219434
 GameObject:
   m_ObjectHideFlags: 0
@@ -4054,7 +4071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.10588479
+      value: 0.105884865
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.y
@@ -4062,7 +4079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.04425246
+      value: -0.044252492
       objectReference: {fileID: 0}
     - target: {fileID: 6093162637702929021, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_Name
@@ -5370,19 +5387,19 @@ PrefabInstance:
       objectReference: {fileID: 423776148}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.20512116
+      value: 0.2051212
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.03419107
+      value: 0.03419099
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9648274
+      value: -0.96482736
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.16082436
+      value: 0.16082437
       objectReference: {fileID: 0}
     - target: {fileID: 6093162637702929021, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_Name
@@ -6427,19 +6444,19 @@ PrefabInstance:
       objectReference: {fileID: 423776148}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.91633993
+      value: 0.9163399
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.10572689
+      value: 0.10572688
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.38364527
+      value: -0.38364533
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.04426482
+      value: 0.044264823
       objectReference: {fileID: 0}
     - target: {fileID: 6093162637702929021, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_Name
@@ -6808,11 +6825,11 @@ PrefabInstance:
       objectReference: {fileID: 423776148}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.58375955
+      value: 0.5837595
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.08904064
+      value: 0.08904063
       objectReference: {fileID: 0}
     - target: {fileID: 4992066847540185078, guid: dfacc21274f9d7d47a402e3cc09b1d68, type: 3}
       propertyPath: m_LocalRotation.y
@@ -7017,6 +7034,7 @@ GameObject:
   - component: {fileID: 1962420167}
   - component: {fileID: 1962420166}
   - component: {fileID: 1962420165}
+  - component: {fileID: 1962420168}
   m_Layer: 5
   m_Name: DPS Button
   m_TagString: Untagged
@@ -7089,10 +7107,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1078076181}
-        m_TargetAssemblyTypeName: TowerSpawn, Assembly-CSharp
-        m_MethodName: SpawnTower
-        m_Mode: 3
+      - m_Target: {fileID: 1962420168}
+        m_TargetAssemblyTypeName: TowerValues, Assembly-CSharp
+        m_MethodName: OnSpawnTower
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7139,6 +7157,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962420163}
   m_CullTransparentMesh: 1
+--- !u!114 &1962420168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962420163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf10deddf6931241bf665ff04c63981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerSpawn: {fileID: 1078076181}
+  towerInformation:
+    currencyValue: 5
+    towerIndex: 0
 --- !u!1 &1976668942
 GameObject:
   m_ObjectHideFlags: 0

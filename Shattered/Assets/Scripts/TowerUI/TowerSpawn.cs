@@ -19,8 +19,6 @@ public class TowerSpawn : MonoBehaviour
 
     FloatEvent placeHolder = new FloatEvent();
 
-    int tempTowerValue = 5;
-
     int currentCurrency => GameManager.instance.Currency;
 
     PlayerSettings playerSettings;
@@ -32,15 +30,15 @@ public class TowerSpawn : MonoBehaviour
         playerSettings = GetComponent<PlayerSettings>();
     }
 
-    public void SpawnTower(int towerIndex)
+    public void SpawnTower(TowerInformation tower)
     {
-        if (currentCurrency < tempTowerValue)
+        if (currentCurrency < tower.currencyValue)
         {
             return;
         }
 
-        Instantiate(towerPrefab[towerIndex], interactionBlock.transform.position, Quaternion.identity);
-        GameManager.instance.Currency -= tempTowerValue;
+        Instantiate(towerPrefab[tower.towerIndex], interactionBlock.transform.position, Quaternion.identity);
+        GameManager.instance.Currency -= tower.currencyValue;
         UpdateCurrencyText(placeHolder);
         interactionBlock.SetActive(false);
         ButtonUsed();
