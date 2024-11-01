@@ -7,7 +7,15 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseTowerAI : MonoBehaviour, IInteractable
 {
-    protected bool canInteract;
+    GameObject interactionPoint;
+
+    protected bool canInteract = true;
+
+    public GameObject InteractionPoint
+    {
+        get { return interactionPoint; }
+        set { interactionPoint = value; }
+    }
 
     public bool CanInteract 
     { 
@@ -25,4 +33,9 @@ public abstract class BaseTowerAI : MonoBehaviour, IInteractable
     }
 
     public abstract void SpecialBehavior();
+
+    private void OnDestroy()
+    {
+        interactionPoint.SetActive(true);
+    }
 }

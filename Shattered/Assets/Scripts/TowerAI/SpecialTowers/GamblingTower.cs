@@ -1,0 +1,98 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum OutComes
+{
+    DestroyAllEnemies,
+    DestroyAllTowers
+}
+
+public class GamblingTower : BaseTowerAI
+{
+    int costToRoll;
+    bool canRoll = true;
+
+    [SerializeField] List<GameObject> towers = new List<GameObject>();
+    [SerializeField] List<IDamageable> enemies = new List<IDamageable>();
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 6)
+        {
+            towers.Add(other.gameObject);
+        }
+
+        else if (other.gameObject.layer == 7)
+        {
+            if(other.gameObject.TryGetComponent(out IDamageable enemy))
+            {
+                enemies.Add(enemy);
+            }
+        }
+    }
+
+    public override void SpecialBehavior()
+    {
+        if(!canRoll)
+        {
+            return;
+        }
+
+        canRoll = false;
+
+        int randomRoll = Random.Range(0, 2);
+
+        switch ((OutComes)randomRoll)
+        {
+            case OutComes.DestroyAllEnemies:
+                DestoryAllEnemies();
+                break;
+
+            case OutComes.DestroyAllTowers:
+                DestroyAllTowers();
+                break;
+        }
+    }
+
+    public void OnRoundEnd(VoidEvent ctx)
+    {
+        enemies.Clear();
+        canRoll = true;
+    }
+
+    void DestroyAllTowers()
+    {
+        for(int i = 0; i < towers.Count; i++)
+        {
+            if (towers[i] != null)
+            {
+                Destroy(towers[i]);
+            }
+        }
+        towers.Clear();
+    }
+
+    void DestoryAllEnemies()
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i] != null)
+            {
+                enemies[i].TakeDamage(1000);
+            }
+        }
+        enemies.Clear();
+    }
+
+    void IncreaseTowerHealth()
+    {
+
+    }
+
+    void GoBroke()
+    {
+        GameManager.instance.Currency = 0;
+    }
+}

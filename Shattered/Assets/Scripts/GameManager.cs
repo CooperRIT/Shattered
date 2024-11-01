@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 1;
-    int currency = 30;
+    int currency = 700;
     int currentWave;
 
     WaitForSeconds enemySpawnTimer_wfs;
@@ -117,16 +117,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    float lastFrameCount = -1;
+
     public void OnEnemyDeath(FloatEvent ctx)
     {
-        if(lastFrameCount == Time.frameCount)
-        {
-            return;
-        }
-
-
-        lastFrameCount = Time.frameCount;
         // Increment the currency and display the updated value
         currency += (int)ctx.FloatValue;
         //currencyText.text = "Currency: " + currency.ToString();

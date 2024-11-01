@@ -37,9 +37,10 @@ public class TowerSpawn : MonoBehaviour
             return;
         }
 
-        Instantiate(towerPrefab[tower.towerIndex], interactionBlock.transform.position, Quaternion.identity);
+        BaseTowerAI towerAI = Instantiate(towerPrefab[tower.towerIndex], interactionBlock.transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<BaseTowerAI>();
         GameManager.instance.Currency -= tower.currencyValue;
         UpdateCurrencyText(placeHolder);
+        towerAI.InteractionPoint = interactionBlock;
         interactionBlock.SetActive(false);
         ButtonUsed();
     }
