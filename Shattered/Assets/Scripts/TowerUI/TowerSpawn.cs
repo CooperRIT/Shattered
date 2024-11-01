@@ -9,6 +9,9 @@ public class TowerSpawn : MonoBehaviour
 {
 
     [SerializeField] GameObject menuUI;
+    [SerializeField] GameObject pauseUI;
+    [SerializeField] GameObject intrusctionsUI;
+
     [SerializeField] List<GameObject> towerPrefab = new List<GameObject>();
     [SerializeField] GameObject interactionBlock;
 
@@ -58,6 +61,11 @@ public class TowerSpawn : MonoBehaviour
 
     public void OnOpenMenu(GameObjectEvent ctx)
     {
+        if (pauseUI.activeSelf || intrusctionsUI.activeSelf)
+        {
+            return;
+        }
+
         Debug.Log("hello");
         interactionBlock = ctx.GameObjectRef;
         towerMenuCurrencyText.text = currencyText.text;

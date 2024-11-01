@@ -180,7 +180,7 @@ MonoBehaviour:
   onEnemyDeath_FloatEventChannel: {fileID: 11400000, guid: f18f275796a537d46ab33d4ce2c1d0bc, type: 2}
   health: 1
   speed: 3
-  currencyValue: 1
+  currencyValue: 2
 --- !u!54 &5060690416022843256
 Rigidbody:
   m_ObjectHideFlags: 0

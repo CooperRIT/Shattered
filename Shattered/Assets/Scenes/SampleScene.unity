@@ -2558,7 +2558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 423776148}
   overheadCamera: {fileID: 1889678397}
-  startingPlayerSens: 100
+  startingPlayerSens: 10
   enemySpawnCount: 0
   currentEnemyCount: 0
   spawnPosition: {fileID: 318764392}
@@ -3655,7 +3655,7 @@ MonoBehaviour:
   firePoint: {fileID: 423776148}
   bullet: {fileID: 7115072182281256779, guid: 0347842bec9d0e244aea43ca6cb63513, type: 3}
   mainCamera: {fileID: 0}
-  timerAmmount: 5
+  timerAmmount: 2.5
 --- !u!1 &813123827
 GameObject:
   m_ObjectHideFlags: 0
@@ -4636,6 +4636,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuUI: {fileID: 2142910915}
+  pauseUI: {fileID: 813123827}
+  intrusctionsUI: {fileID: 1189592285}
   towerPrefab:
   - {fileID: 201211383388532636, guid: 9c7d10290cf87c0488b402735a15262b, type: 3}
   - {fileID: 4797141876843865033, guid: e763f6ed6efa67343add42f6339e8f48, type: 3}
@@ -4757,6 +4759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuUI: {fileID: 813123827}
   towerUI: {fileID: 2142910915}
+  instructionsUI: {fileID: 1189592285}
 --- !u!1 &1082313326
 GameObject:
   m_ObjectHideFlags: 0
@@ -6608,8 +6611,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 1.5919927}
+  m_Center: {x: 0, y: 0, z: 0.2959962}
 --- !u!23 &1631015106
 MeshRenderer:
   m_ObjectHideFlags: 0

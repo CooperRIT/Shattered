@@ -16,6 +16,8 @@ public class GamblingTower : BaseTowerAI
     [SerializeField] List<GameObject> towers = new List<GameObject>();
     [SerializeField] List<IDamageable> enemies = new List<IDamageable>();
 
+    [SerializeField] GameObject displayText;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -42,6 +44,8 @@ public class GamblingTower : BaseTowerAI
 
         canRoll = false;
 
+        displayText.SetActive(false);
+
         int randomRoll = Random.Range(0, 2);
 
         switch ((OutComes)randomRoll)
@@ -60,6 +64,7 @@ public class GamblingTower : BaseTowerAI
     {
         enemies.Clear();
         canRoll = true;
+        displayText.SetActive(true);
     }
 
     void DestroyAllTowers()

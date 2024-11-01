@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 1;
-    int currency = 700;
+    int currency = 30;
     int currentWave;
 
     WaitForSeconds enemySpawnTimer_wfs;

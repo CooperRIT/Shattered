@@ -10,10 +10,11 @@ public class PauseMenu : MonoBehaviour
     // Variables
     [SerializeField] GameObject menuUI;
     [SerializeField] GameObject towerUI;
+    [SerializeField] GameObject instructionsUI;
 
     public void Pause()
     {
-        if(towerUI.activeSelf)
+        if(towerUI.activeSelf || instructionsUI.activeSelf)
         {
             return;
         }
