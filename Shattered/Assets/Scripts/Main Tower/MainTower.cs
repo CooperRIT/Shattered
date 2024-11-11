@@ -50,6 +50,6 @@ public class MainTower : MonoBehaviour, IDamageable
 
     public void UpdateHealthText()
     {
-        healthText.text = $"<b>Tower Health Remaining:</b> {health}";
+       // healthText.text = $"<b>Tower Health Remaining:</b> {health}";
     }
 }

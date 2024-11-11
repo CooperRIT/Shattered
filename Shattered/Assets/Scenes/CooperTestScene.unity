@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afb95b3a2bf11e428522fbd05f653c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  onInteract: {fileID: 0}
 --- !u!1 &267717566
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +229,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7e9731449563a6a44aea09601dfdb704, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -368,7 +368,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 24f8a0ce93f5a284b956778d42b98518, type: 2}
+  - {fileID: 2100000, guid: a97281524bc29734cb7cb4f6fce76349, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -476,11 +476,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 423776148}
+  overheadCamera: {fileID: 0}
+  startingPlayerSens: 0
+  enemySpawnCount: 0
   currentEnemyCount: 0
   spawnPosition: {fileID: 318764392}
-  endPosition: {fileID: 1096368890}
+  endPositions: []
   enemyPrefab: {fileID: 4666760404750643397, guid: 5ea835a5c87057c438b86f877810ab01, type: 3}
-  currencyText: {fileID: 0}
+  onEndWave_EventChannel: {fileID: 0}
 --- !u!4 &672868439
 Transform:
   m_ObjectHideFlags: 0
@@ -715,6 +718,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraMovement: {fileID: 1833845361}
   playerInteractor: {fileID: 1631015108}
+  nextWave_EventChannel: {fileID: 0}
+  pauseMenu: {fileID: 0}
 --- !u!114 &800204681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1228,7 +1233,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentTransform: {fileID: 423776148}
-  sensitvity: 100
 --- !u!1001 &5202110187853629250
 PrefabInstance:
   m_ObjectHideFlags: 0
