@@ -231,6 +231,74 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlacingControls",
+            "id": "7e38782b-e67d-4464-a195-957b6a7c6b8e",
+            "actions": [
+                {
+                    "name": "ExitPlacingMode",
+                    "type": "Button",
+                    "id": "d488af5e-188a-4a0c-a113-25439966849c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EnterPlacingMode",
+                    "type": "Button",
+                    "id": "6bad78ed-b2dd-4b25-a6d0-3cd9f99fe05b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlaceTower",
+                    "type": "Button",
+                    "id": "7b55f93f-ed60-4a9e-ba1b-e8ddcb8a2aa3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3cadf336-788b-4d2f-9e4a-d577305f2c9d",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ExitPlacingMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bff2af28-48ec-4956-a200-a1a388d116b9",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnterPlacingMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53acc06f-98b3-49fa-ab46-22be072b272d",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlaceTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

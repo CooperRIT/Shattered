@@ -13,7 +13,7 @@ public class TowerSpawn : MonoBehaviour
     [SerializeField] GameObject intrusctionsUI;
 
     [SerializeField] List<GameObject> towerPrefab = new List<GameObject>();
-    [SerializeField] GameObject interactionBlock;
+    [SerializeField] GameObject placementPosition;
 
     [SerializeField] TextMeshProUGUI currencyText;
     [SerializeField] TextMeshProUGUI towerMenuCurrencyText;
@@ -31,6 +31,14 @@ public class TowerSpawn : MonoBehaviour
     [SerializeField] VoidEventChannel onFirstSupportTower_EventChannel;
     bool isFirstSupportTower = true;
 
+    //dynamic placing
+    [SerializeField] Material towerMaterial;
+    [SerializeField] Material placingMaterial;
+    GameObject tempTower;
+    MeshRenderer tempTowerMeshRenderer;
+    TowerInformation tempTowerInformation;
+    Collider tempTowerCollider;
+
     // Update is called once per frame
     void Awake()
     {
@@ -38,7 +46,7 @@ public class TowerSpawn : MonoBehaviour
         playerSettings = GetComponent<PlayerSettings>();
     }
 
-    public void SpawnTower(TowerInformation tower)
+    /*public void SpawnTower(TowerInformation tower)
     {
         if (currentCurrency < tower.currencyValue)
         {
@@ -62,7 +70,10 @@ public class TowerSpawn : MonoBehaviour
         towerAI.InteractionPoint = interactionBlock;
         interactionBlock.SetActive(false);
         ButtonUsed();
-    }
+    }*/
+
+    
+
 
     public void ButtonUsed()
     {
@@ -73,20 +84,6 @@ public class TowerSpawn : MonoBehaviour
         // Hide and deactivate the menu
         menuUI.SetActive(false);
         playerSettings.ReappleSens();
-    }
-
-    public void OnOpenMenu(GameObjectEvent ctx)
-    {
-        if (pauseUI.activeSelf || intrusctionsUI.activeSelf)
-        {
-            return;
-        }
-
-        Debug.Log("hello");
-        interactionBlock = ctx.GameObjectRef;
-        towerMenuCurrencyText.text = currencyText.text;
-        OnMenutActivate();
-        playerSettings.ZeroSens();
     }
 
     void OnMenutActivate()
@@ -111,5 +108,57 @@ public class TowerSpawn : MonoBehaviour
     {
         currencyText.text = $"<b>Currency:</b> {currentCurrency}";
         towerMenuCurrencyText.text = currencyText.text;
+    }
+
+    //Dynamic Placing Version
+
+    public void SpawnTower(VoidEvent ctx)
+    {
+        GameManager.instance.Currency -= tempTowerInformation.currencyValue;
+        tempTowerMeshRenderer.material = towerMaterial;
+        tempTower.transform.parent = null;
+        tempTowerCollider.enabled = true;
+        UpdateCurrencyText(placeHolder);
+    }
+
+    public void CancelPlacement(VoidEvent ctx)
+    {
+        Destroy(tempTower);
+    }
+
+    public void SelectTower(TowerInformation tower)
+    {
+        if (currentCurrency < tower.currencyValue)
+        {
+            return;
+        }
+
+        tempTower = Instantiate(towerPrefab[tower.towerIndex], placementPosition.transform.position, Quaternion.identity);
+        tempTowerMeshRenderer = tempTower.GetComponent<MeshRenderer>();
+
+        towerMaterial = tempTowerMeshRenderer.material;
+        tempTowerMeshRenderer.material = placingMaterial;
+
+        tempTower.transform.parent = placementPosition.transform;
+        tempTowerInformation = tower;
+
+        tempTowerCollider = tempTower.GetComponent<Collider>();
+        tempTowerCollider.enabled = false;
+
+        ButtonUsed();
+    }
+
+    public void OnOpenMenu(GameObjectEvent ctx)
+    {
+        if (pauseUI.activeSelf || intrusctionsUI.activeSelf)
+        {
+            return;
+        }
+
+        Debug.Log("hello");
+        placementPosition = ctx.GameObjectRef;
+        towerMenuCurrencyText.text = currencyText.text;
+        OnMenutActivate();
+        playerSettings.ZeroSens();
     }
 }

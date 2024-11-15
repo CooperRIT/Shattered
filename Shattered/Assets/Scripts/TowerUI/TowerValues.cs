@@ -17,6 +17,6 @@ public class TowerValues : MonoBehaviour
 
     public void OnSpawnTower()
     {
-        towerSpawn.SpawnTower(towerInformation);
+        towerSpawn.SelectTower(towerInformation);
     }
 }

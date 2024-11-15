@@ -253,6 +253,74 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlacingControls"",
+            ""id"": ""7e38782b-e67d-4464-a195-957b6a7c6b8e"",
+            ""actions"": [
+                {
+                    ""name"": ""ExitPlacingMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""d488af5e-188a-4a0c-a113-25439966849c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EnterPlacingMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""6bad78ed-b2dd-4b25-a6d0-3cd9f99fe05b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlaceTower"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b55f93f-ed60-4a9e-ba1b-e8ddcb8a2aa3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3cadf336-788b-4d2f-9e4a-d577305f2c9d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExitPlacingMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bff2af28-48ec-4956-a200-a1a388d116b9"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EnterPlacingMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53acc06f-98b3-49fa-ab46-22be072b272d"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlaceTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -269,6 +337,11 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
         // MouseControls
         m_MouseControls = asset.FindActionMap("MouseControls", throwIfNotFound: true);
         m_MouseControls_MousePosition = m_MouseControls.FindAction("MousePosition", throwIfNotFound: true);
+        // PlacingControls
+        m_PlacingControls = asset.FindActionMap("PlacingControls", throwIfNotFound: true);
+        m_PlacingControls_ExitPlacingMode = m_PlacingControls.FindAction("ExitPlacingMode", throwIfNotFound: true);
+        m_PlacingControls_EnterPlacingMode = m_PlacingControls.FindAction("EnterPlacingMode", throwIfNotFound: true);
+        m_PlacingControls_PlaceTower = m_PlacingControls.FindAction("PlaceTower", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -466,6 +539,68 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public MouseControlsActions @MouseControls => new MouseControlsActions(this);
+
+    // PlacingControls
+    private readonly InputActionMap m_PlacingControls;
+    private List<IPlacingControlsActions> m_PlacingControlsActionsCallbackInterfaces = new List<IPlacingControlsActions>();
+    private readonly InputAction m_PlacingControls_ExitPlacingMode;
+    private readonly InputAction m_PlacingControls_EnterPlacingMode;
+    private readonly InputAction m_PlacingControls_PlaceTower;
+    public struct PlacingControlsActions
+    {
+        private @MainPlayerControls m_Wrapper;
+        public PlacingControlsActions(@MainPlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ExitPlacingMode => m_Wrapper.m_PlacingControls_ExitPlacingMode;
+        public InputAction @EnterPlacingMode => m_Wrapper.m_PlacingControls_EnterPlacingMode;
+        public InputAction @PlaceTower => m_Wrapper.m_PlacingControls_PlaceTower;
+        public InputActionMap Get() { return m_Wrapper.m_PlacingControls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlacingControlsActions set) { return set.Get(); }
+        public void AddCallbacks(IPlacingControlsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlacingControlsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlacingControlsActionsCallbackInterfaces.Add(instance);
+            @ExitPlacingMode.started += instance.OnExitPlacingMode;
+            @ExitPlacingMode.performed += instance.OnExitPlacingMode;
+            @ExitPlacingMode.canceled += instance.OnExitPlacingMode;
+            @EnterPlacingMode.started += instance.OnEnterPlacingMode;
+            @EnterPlacingMode.performed += instance.OnEnterPlacingMode;
+            @EnterPlacingMode.canceled += instance.OnEnterPlacingMode;
+            @PlaceTower.started += instance.OnPlaceTower;
+            @PlaceTower.performed += instance.OnPlaceTower;
+            @PlaceTower.canceled += instance.OnPlaceTower;
+        }
+
+        private void UnregisterCallbacks(IPlacingControlsActions instance)
+        {
+            @ExitPlacingMode.started -= instance.OnExitPlacingMode;
+            @ExitPlacingMode.performed -= instance.OnExitPlacingMode;
+            @ExitPlacingMode.canceled -= instance.OnExitPlacingMode;
+            @EnterPlacingMode.started -= instance.OnEnterPlacingMode;
+            @EnterPlacingMode.performed -= instance.OnEnterPlacingMode;
+            @EnterPlacingMode.canceled -= instance.OnEnterPlacingMode;
+            @PlaceTower.started -= instance.OnPlaceTower;
+            @PlaceTower.performed -= instance.OnPlaceTower;
+            @PlaceTower.canceled -= instance.OnPlaceTower;
+        }
+
+        public void RemoveCallbacks(IPlacingControlsActions instance)
+        {
+            if (m_Wrapper.m_PlacingControlsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlacingControlsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlacingControlsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlacingControlsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlacingControlsActions @PlacingControls => new PlacingControlsActions(this);
     public interface IBasicControlsActions
     {
         void OnWASD(InputAction.CallbackContext context);
@@ -479,5 +614,11 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
     public interface IMouseControlsActions
     {
         void OnMousePosition(InputAction.CallbackContext context);
+    }
+    public interface IPlacingControlsActions
+    {
+        void OnExitPlacingMode(InputAction.CallbackContext context);
+        void OnEnterPlacingMode(InputAction.CallbackContext context);
+        void OnPlaceTower(InputAction.CallbackContext context);
     }
 }
