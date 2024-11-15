@@ -47,11 +47,10 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.BasicControls.Interact.performed += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
         mainPlayerControls.BasicControls.Interact.canceled += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
         mainPlayerControls.BasicControls.NextWave.performed += (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new());};
-        mainPlayerControls.BasicControls.Restart.performed += (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
         mainPlayerControls.BasicControls.Pause.performed += PauseMenu;
         mainPlayerControls.BasicControls.Attack.performed += OnAttack;
         mainPlayerControls.BasicControls.ChangeCamera.performed += OnChangeCamera;
-        mainPlayerControls.PlacingControls.EnterPlacingMode.performed += EnterPlacementMode;
+        mainPlayerControls.PlacingControls.EnterPlacingMode.performed += OnOpenPlacementMode;
 
     }
 
@@ -61,11 +60,10 @@ public class ControlMapping : MonoBehaviour
         mainPlayerControls.BasicControls.Interact.performed -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
         mainPlayerControls.BasicControls.Interact.canceled -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
         mainPlayerControls.BasicControls.NextWave.performed -= (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new()); };
-        mainPlayerControls.BasicControls.Restart.performed -= (InputAction.CallbackContext ctx) => { SceneManager.LoadScene(1); };
         mainPlayerControls.BasicControls.Pause.performed -= PauseMenu;
         mainPlayerControls.BasicControls.Attack.performed -= OnAttack;
         mainPlayerControls.BasicControls.ChangeCamera.performed -= OnChangeCamera;
-        mainPlayerControls.PlacingControls.EnterPlacingMode.performed -= EnterPlacementMode;
+        mainPlayerControls.PlacingControls.EnterPlacingMode.performed -= OnOpenPlacementMode;
         PlacementDeAssigning();
     }
 
@@ -83,17 +81,21 @@ public class ControlMapping : MonoBehaviour
         playerAttack.Attack();
     }
 
-    void EnterPlacementMode(InputAction.CallbackContext ctx)
+    void OnOpenPlacementMode(InputAction.CallbackContext ctx)
     {
-        if(isPlacing)
+        if (isPlacing)
         {
             return;
         }
 
+        openTowerMenu_EventChannel.CallEvent(new(placementPosition.gameObject));
+    }
+
+    public void EnterPlacementMode(VoidEvent ctx)
+    {
         placementPosition.gameObject.SetActive(true);
         isPlacing = true;
         PlacementAssigning();
-        openTowerMenu_EventChannel.CallEvent(new(placementPosition.gameObject));
     }
 
     void PlaceTower(InputAction.CallbackContext ctx)

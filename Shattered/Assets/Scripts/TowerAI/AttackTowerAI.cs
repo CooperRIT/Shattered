@@ -39,9 +39,13 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
     [SerializeField] Transform shootPoint;
 
     float timer;
-    
 
     [SerializeField] float randomOffset;
+
+
+    //Temp way to store currecny value
+
+
 
     //IAttackBehavior attackBehavior;
 
@@ -118,11 +122,6 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
         Transform projectile = Instantiate(bullet_Prefab, shootPoint.position, Quaternion.identity).transform;
 
         projectile.LookAt(target.transform.position);
-    }
-
-    public override void SpecialBehavior()
-    {
-        //TowerCodeHere
     }
     
     public BuffableStats BuffableStats

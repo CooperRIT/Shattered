@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     float enemyIncreasingCount = 5;
     [SerializeField] float currentEnemyCount;
     float enemySpawnTimer = 1;
-    int currency = 300;
+    int currency = 35;
     int currentWave;
 
     WaitForSeconds enemySpawnTimer_wfs;
@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] VoidEventChannel onFirstWave_EventChannel;
     bool isFirstWave = true;
+
+    float maxHealth = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -98,6 +100,10 @@ public class GameManager : MonoBehaviour
     {
         enemySpawnCount += enemyIncreasingCount;
         enemyIncreasingCount += 3;
+        if (Random.Range(0, 10) >= 8)
+        {
+            maxHealth += 1;
+        }
         DecreaseTimer();
         currentEnemyCount = enemySpawnCount;
 
@@ -119,6 +125,10 @@ public class GameManager : MonoBehaviour
         {
             EnemyAI enemy = Instantiate(enemyPrefab, spawnPosition.position, Quaternion.identity).GetComponent<EnemyAI>();
             enemy.OnSpawn(endPositions[Random.Range(0,2)]);
+            if(Random.Range(0,10) >= 8)
+            {
+                enemy.Health = Random.Range(1, maxHealth);
+            }
             yield return enemySpawnTimer_wfs;
         }
     }

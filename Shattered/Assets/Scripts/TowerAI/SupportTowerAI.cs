@@ -6,20 +6,21 @@ public class SupportTowerAI : BaseTowerAI, ICanBuff
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.CompareTag("Buffable"))
+        if(other.gameObject.layer != 7)
         {
             return;
         }
 
         if(other.transform.GetChild(0).TryGetComponent(out AttackTowerAI attackTower))
         {
+            Debug.Log("applied buffs");
             ApplyBuffs(attackTower.BuffableStats);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Buffable"))
+        if (other.gameObject.layer != 7)
         {
             return;
         }
@@ -28,12 +29,6 @@ public class SupportTowerAI : BaseTowerAI, ICanBuff
         {
             RemoveBuffs(attackTower.BuffableStats);
         }
-    }
-
-
-    public override void SpecialBehavior()
-    {
-        
     }
 
     public void ApplyBuffs(BuffableStats buffableStats)

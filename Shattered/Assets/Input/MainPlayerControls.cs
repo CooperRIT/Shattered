@@ -312,7 +312,7 @@ public partial class @MainPlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""53acc06f-98b3-49fa-ab46-22be072b272d"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

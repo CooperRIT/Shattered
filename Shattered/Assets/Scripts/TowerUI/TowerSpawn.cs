@@ -11,6 +11,7 @@ public class TowerSpawn : MonoBehaviour
     [SerializeField] GameObject menuUI;
     [SerializeField] GameObject pauseUI;
     [SerializeField] GameObject intrusctionsUI;
+    [SerializeField] GameObject upgradeUI;
 
     [SerializeField] List<GameObject> towerPrefab = new List<GameObject>();
     [SerializeField] GameObject placementPosition;
@@ -38,6 +39,9 @@ public class TowerSpawn : MonoBehaviour
     MeshRenderer tempTowerMeshRenderer;
     TowerInformation tempTowerInformation;
     Collider tempTowerCollider;
+    [SerializeField] VoidEventChannel onEnterPlacementMode_EventChannel;
+
+    [SerializeField] GameObject placingControls;
 
     // Update is called once per frame
     void Awake()
@@ -119,10 +123,18 @@ public class TowerSpawn : MonoBehaviour
         tempTower.transform.parent = null;
         tempTowerCollider.enabled = true;
         UpdateCurrencyText(placeHolder);
+        tempTower = null;
+        placingControls.SetActive(false);
     }
 
     public void CancelPlacement(VoidEvent ctx)
     {
+        ButtonUsed();
+        placingControls.SetActive(false);
+        if(tempTower == null)
+        {
+            return;
+        }
         Destroy(tempTower);
     }
 
@@ -132,6 +144,10 @@ public class TowerSpawn : MonoBehaviour
         {
             return;
         }
+
+        placingControls.SetActive(true);
+
+        onEnterPlacementMode_EventChannel.CallEvent(new());
 
         tempTower = Instantiate(towerPrefab[tower.towerIndex], placementPosition.transform.position, Quaternion.identity);
         tempTowerMeshRenderer = tempTower.GetComponent<MeshRenderer>();
@@ -150,7 +166,7 @@ public class TowerSpawn : MonoBehaviour
 
     public void OnOpenMenu(GameObjectEvent ctx)
     {
-        if (pauseUI.activeSelf || intrusctionsUI.activeSelf)
+        if (pauseUI.activeSelf || intrusctionsUI.activeSelf || upgradeUI.activeSelf)
         {
             return;
         }

@@ -15,12 +15,18 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
 
     [SerializeField] protected float health = 1;
     [SerializeField] protected float speed = 3;
-    [SerializeField] protected float currencyValue = 1;
+    [SerializeField] protected float currencyValue = 2;
     FloatEvent currencyValue_FloatEvent;
 
     public float Damage => health;
 
     bool isDead;
+
+    public float Health
+    {
+        get { return health; }
+        set { health = value; }
+    }
 
     private void Awake()
     {

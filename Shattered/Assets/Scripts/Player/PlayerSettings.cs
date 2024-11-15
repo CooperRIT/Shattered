@@ -12,6 +12,9 @@ public class PlayerSettings : MonoBehaviour
     [SerializeField] TextMeshProUGUI sensitvityTextValue;
     [SerializeField] FloatEventChannel sensitvityEventChannel;
 
+    [SerializeField] TextMeshProUGUI waveCounter;
+    float waveCount = 1;
+
     float storeSens;
 
     private void Start()
@@ -41,6 +44,13 @@ public class PlayerSettings : MonoBehaviour
     {
         sensitivitySlider.value = storeSens;
         UpdateSensitivty();
+    }
+
+    public void UpdateWaveCounter(VoidEvent ctx)
+    {
+        waveCount++;
+        waveCount -= .5f;
+        waveCounter.text = $"Wave: {Mathf.Floor(waveCount)}";
     }
 
 }

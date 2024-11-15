@@ -8,7 +8,7 @@ public class MainTower : MonoBehaviour, IDamageable
 {
     [SerializeField] VoidEventChannel onMainTowerDeath;
     [SerializeField] TextMeshPro healthText;
-    float health = 10;
+    int health = 10;
 
     private void Awake()
     {
@@ -17,7 +17,7 @@ public class MainTower : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
+        health -= (int)damage;
         UpdateHealthText();
 
 
@@ -50,6 +50,6 @@ public class MainTower : MonoBehaviour, IDamageable
 
     public void UpdateHealthText()
     {
-       // healthText.text = $"<b>Tower Health Remaining:</b> {health}";
+       healthText.text = $"<b>Tower Health Remaining:</b> {health}";
     }
 }

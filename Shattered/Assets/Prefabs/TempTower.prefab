@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6195274043631474334}
   m_Layer: 6
   m_Name: TempTower
-  m_TagString: Buffable
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 4592182602158629515}
   m_Layer: 0
   m_Name: Scripts
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e33ac5ab007db47ae73d206b8d342f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTowerInteract_EventChannel: {fileID: 11400000, guid: 7135663503ad2b548af98179693ae013, type: 2}
   buffableStats:
     towerDamage: 1
     attackTime: 4
