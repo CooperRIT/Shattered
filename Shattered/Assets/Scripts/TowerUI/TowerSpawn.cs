@@ -26,6 +26,11 @@ public class TowerSpawn : MonoBehaviour
 
     PlayerSettings playerSettings;
 
+    [SerializeField] VoidEventChannel onFirstDpsTower_EventChannel;
+    bool isFirstDpsTower = true;
+    [SerializeField] VoidEventChannel onFirstSupportTower_EventChannel;
+    bool isFirstSupportTower = true;
+
     // Update is called once per frame
     void Awake()
     {
@@ -38,6 +43,17 @@ public class TowerSpawn : MonoBehaviour
         if (currentCurrency < tower.currencyValue)
         {
             return;
+        }
+
+        if(isFirstDpsTower && tower.towerIndex == 0)
+        {
+            onFirstDpsTower_EventChannel.CallEvent(new());
+            isFirstDpsTower = false;
+        }
+        if (isFirstSupportTower && tower.towerIndex == 1)
+        {
+            onFirstSupportTower_EventChannel.CallEvent(new());
+            isFirstSupportTower = false;
         }
 
         BaseTowerAI towerAI = Instantiate(towerPrefab[tower.towerIndex], interactionBlock.transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<BaseTowerAI>();

@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] VoidEventChannel onEndWave_EventChannel;
 
-    // Properties
+    [SerializeField] VoidEventChannel onFirstWave_EventChannel;
+    bool isFirstWave = true;
 
     // Start is called before the first frame update
     void Awake()
@@ -67,6 +68,11 @@ public class GameManager : MonoBehaviour
     [ContextMenu("Start Wave")]
     public void OnStartAttackPhase(VoidEvent ctx)
     {
+        if (isFirstWave)
+        {
+            onFirstWave_EventChannel.CallEvent(new());
+            isFirstWave = false;
+        }
         if(currentEnemyCount != 0)
         {
             return;

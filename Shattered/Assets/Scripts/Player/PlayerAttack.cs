@@ -26,6 +26,9 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] float timerAmmount = 5;
 
+    [SerializeField] VoidEventChannel onFirstPlayerAttack_EventChannel;
+    bool isFirstAttack = true;
+
     void Awake()
     {
 
@@ -38,6 +41,12 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
+        if (isFirstAttack)
+        {
+            onFirstPlayerAttack_EventChannel.CallEvent(new());
+            isFirstAttack = false;
+        }
+
         if(timer > Time.time)
         {
             return;
