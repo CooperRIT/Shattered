@@ -118,6 +118,16 @@ public class TowerSpawn : MonoBehaviour
 
     public void SpawnTower(VoidEvent ctx)
     {
+        if (isFirstDpsTower && tempTowerInformation.towerIndex == 0)
+        {
+            onFirstDpsTower_EventChannel.CallEvent(new());
+            isFirstDpsTower = false;
+        }
+        if (isFirstSupportTower && tempTowerInformation.towerIndex == 1)
+        {
+            onFirstSupportTower_EventChannel.CallEvent(new());
+            isFirstSupportTower = false;
+        }
         GameManager.instance.Currency -= tempTowerInformation.currencyValue;
         tempTowerMeshRenderer.material = towerMaterial;
         tempTower.transform.parent = null;
