@@ -6,44 +6,46 @@ public class SupportTowerAI : BaseTowerAI, ICanBuff
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer != 7)
+        if(other.gameObject.layer != 6)
         {
             return;
         }
 
-        if(other.transform.GetChild(0).TryGetComponent(out AttackTowerAI attackTower))
+        Debug.Log("is tower");
+
+        if (other.transform.GetChild(0).TryGetComponent(out CanBeBuffed attackTower))
         {
             Debug.Log("applied buffs");
-            ApplyBuffs(attackTower.BuffableStats);
+            attackTower.ModifyStats(0, -1);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != 7)
+        if (other.gameObject.layer != 6)
         {
             return;
         }
 
-        if (other.transform.GetChild(0).TryGetComponent(out AttackTowerAI attackTower))
+        if (other.transform.GetChild(0).TryGetComponent(out CanBeBuffed attackTower))
         {
-            RemoveBuffs(attackTower.BuffableStats);
+            attackTower.ModifyStats(0, 1);
         }
     }
 
-    public void ApplyBuffs(BuffableStats buffableStats)
+    public override void UpgradeLogicOne(int statIncrease)
     {
-        buffableStats.AttackTime -= 1;
+        throw new System.NotImplementedException();
     }
 
-    public void RemoveBuffs(BuffableStats buffableStats)
+    public override void UpgradeLogicTwo(int statIncrease)
     {
-        buffableStats.AttackTime += 1;
+        throw new System.NotImplementedException();
     }
 }
 
 public interface ICanBuff
 {
-    public void ApplyBuffs(BuffableStats buffableStats);
-    public void RemoveBuffs(BuffableStats buffableStats);
+    //public float StatIncrease { get; set; }
+
 }

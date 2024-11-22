@@ -2,33 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Class that holds values that support towers can buff
-[System.Serializable]
-public class BuffableStats
+
+[Tooltip("BuffOne = Attack Damage, BuffTwo = AttackSpeed")]
+public class AttackTowerAI : BaseTowerAI, ICanDamage, CanBeBuffed
 {
-    public float towerDamage;
-    public float attackTime;
+    public float Damage => upgrades.UpgradableStats.UpgradableStatOne;
 
-    public float AttackTime
-    {
-        get { return attackTime; }
-        set { attackTime = value; }
-    }
-    public float TowerDamage
-    {
-        get { return towerDamage; }
-        set { towerDamage = value; }
-    }
-}
-
-public class AttackTowerAI : BaseTowerAI, ICanDamage
-{
-    //Serialize Version of the class that holds these values
-    [SerializeField] BuffableStats buffableStats = new BuffableStats();
-
-    float timerAmount => buffableStats.AttackTime;
-
-    public float Damage => buffableStats.TowerDamage;
+    float timerAmount => upgrades.UpgradableStats.UpgradableStatTwo;
 
     [SerializeField] List<EnemyAI> enemies = new List<EnemyAI>();
 
@@ -43,11 +23,7 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
     [SerializeField] float randomOffset;
 
 
-    //Temp way to store currecny value
 
-
-
-    //IAttackBehavior attackBehavior;
 
     private void Awake()
     {
@@ -123,10 +99,33 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage
 
         projectile.LookAt(target.transform.position);
     }
-    
-    public BuffableStats BuffableStats
+
+    public override void UpgradeLogicOne(int statIncrease)
     {
-        get { return buffableStats; }
+        throw new System.NotImplementedException();
+    }
+
+    public override void UpgradeLogicTwo(int statIncrease)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ModifyStats(float statModifyOne, float statModifyTwo)
+    {
+        BuffableStatOne += statModifyOne;
+        BuffableStatTwo += statModifyTwo;
+    }
+
+    public float BuffableStatOne 
+    {
+        get { return upgrades.UpgradableStats.UpgradableStatOne; }
+        set { upgrades.UpgradableStats.UpgradableStatOne = value; }
+    }
+
+    public float BuffableStatTwo
+    {
+        get { return upgrades.UpgradableStats.UpgradableStatTwo; }
+        set { upgrades.UpgradableStats.UpgradableStatTwo = value; }
     }
 }
 
@@ -142,4 +141,12 @@ public interface ICanDamage
 public interface IAttackBehavior
 {
     public void AttackBehavior();
+}
+
+public interface CanBeBuffed
+{
+    public float BuffableStatOne { get; set; }
+    public float BuffableStatTwo { get; set; }
+
+    public void ModifyStats(float statModifyOne, float statModifyTwo);
 }

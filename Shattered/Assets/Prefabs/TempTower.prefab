@@ -212,9 +212,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onTowerInteract_EventChannel: {fileID: 11400000, guid: 7135663503ad2b548af98179693ae013, type: 2}
-  buffableStats:
-    towerDamage: 1
-    attackTime: 4
+  upgrades:
+    upgradableStats:
+      upgradableStatOne: 1
+      upgradableStatTwo: 3
+    upgradeTextOne: Insert Text 1
+    upgradeTextTwo: Insert Text 2
+    upgradePriceOne: 10
+    upgradePriceTwo: 10
   enemies: []
   bullet_Prefab: {fileID: 6473923742544353274, guid: 272c0b6df7a8d2f43b1d104c72e94e29, type: 3}
   shootPoint: {fileID: 5847513404949502424}

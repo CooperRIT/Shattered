@@ -100,4 +100,14 @@ public class GamblingTower : BaseTowerAI
     {
         GameManager.instance.Currency = 0;
     }
+
+    public override void UpgradeLogicOne(int statIncrease)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void UpgradeLogicTwo(int statIncrease)
+    {
+        throw new System.NotImplementedException();
+    }
 }
