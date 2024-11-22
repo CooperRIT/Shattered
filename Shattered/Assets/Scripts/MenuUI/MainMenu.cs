@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject mainMenu;
-    [SerializeField] GameObject dialoguePanel;
+    [SerializeField] GameObject controlsMenu;
     [SerializeField] GameObject instructorDialogue;
     [SerializeField] GameObject kelderDialogue;
 
@@ -15,21 +15,23 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(StartDialogue());
     }
 
-    public void Controls()
+    public void MenuSwap(GameObject menu)
     {
-        SceneManager.LoadScene("ControlsScene");
+        mainMenu.SetActive(!(mainMenu.activeSelf));
+        menu.SetActive(!(menu.activeSelf));
     }
 
     public void QuitGame()
     {
         Application.Quit(); // For a build
-        //UnityEditor.EditorApplication.isPlaying = false; // For the editor
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     private IEnumerator StartDialogue()
     {
         mainMenu.SetActive(false);
-        dialoguePanel.SetActive(true);
         instructorDialogue.SetActive(true);
 
         yield return new WaitForSeconds(10);
