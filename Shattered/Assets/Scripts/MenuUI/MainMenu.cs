@@ -7,6 +7,8 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject controlsMenu;
+
+    [SerializeField] GameObject dialogueSkipButton;
     [SerializeField] GameObject instructorDialogue;
     [SerializeField] GameObject kelderDialogue;
 
@@ -33,6 +35,7 @@ public class MainMenu : MonoBehaviour
     {
         mainMenu.SetActive(false);
         instructorDialogue.SetActive(true);
+        dialogueSkipButton.SetActive(true);
 
         yield return new WaitForSeconds(10);
 
@@ -42,4 +45,6 @@ public class MainMenu : MonoBehaviour
 
         SceneManager.LoadScene("SampleScene");
     }
+
+    public void Skip() { SceneManager.LoadScene("SampleScene"); }
 }
