@@ -32,6 +32,11 @@ public class TowerSpawn : MonoBehaviour
     [SerializeField] VoidEventChannel onFirstSupportTower_EventChannel;
     bool isFirstSupportTower = true;
 
+    [SerializeField] VoidEventChannel onChooseDpsTower_EventChannel;
+    [SerializeField] VoidEventChannel onChooseSupportTower_EventChannel;
+    [SerializeField] VoidEventChannel onChooseGamblingTower_EventChannel;
+    [SerializeField] VoidEventChannel onDisableDescriptionMenu_EventChannel;
+
     //dynamic placing
     [SerializeField] Material towerMaterial;
     [SerializeField] Material placingMaterial;
@@ -135,6 +140,7 @@ public class TowerSpawn : MonoBehaviour
         UpdateCurrencyText(placeHolder);
         tempTower = null;
         placingControls.SetActive(false);
+        onDisableDescriptionMenu_EventChannel.CallEvent(new());
     }
 
     public void CancelPlacement(VoidEvent ctx)
@@ -153,6 +159,19 @@ public class TowerSpawn : MonoBehaviour
         if (currentCurrency < tower.currencyValue)
         {
             return;
+        }
+        
+        switch (tower.towerIndex)
+        {
+            case 0:
+                onChooseDpsTower_EventChannel.CallEvent(new());
+                break;
+            case 1:
+                onChooseSupportTower_EventChannel.CallEvent(new());
+                break;
+            case 2:
+                onChooseGamblingTower_EventChannel.CallEvent(new());
+                break;
         }
 
         placingControls.SetActive(true);

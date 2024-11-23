@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -29,6 +31,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] VoidEventChannel onFirstPlayerAttack_EventChannel;
     bool isFirstAttack = true;
 
+    [SerializeField] Image cooldownCircle;
+    [SerializeField] Sprite upCircle;
+    [SerializeField] Sprite downCircle;
+    [SerializeField] TextMeshProUGUI cooldownTimer;
+    private bool refresh = true;
+
     void Awake()
     {
 
@@ -36,7 +44,16 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-
+        if(timer > Time.time)
+        {
+            cooldownTimer.text = ((int)(timer - Time.time)).ToString();
+        }
+        else if(refresh)
+        {
+            refresh = false;
+            cooldownTimer.text = "RMB";
+            cooldownCircle.sprite = upCircle;
+        }
     }
 
     public void Attack()
@@ -58,5 +75,8 @@ public class PlayerAttack : MonoBehaviour
         projectile.forward = cameraDirection;
 
         timer = Time.time + timerAmmount;
+
+        cooldownCircle.sprite = downCircle;
+        refresh = true;
     }
 }

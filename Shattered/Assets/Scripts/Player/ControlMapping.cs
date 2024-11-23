@@ -24,6 +24,7 @@ public class ControlMapping : MonoBehaviour
     [SerializeField] GameObjectEventChannel openTowerMenu_EventChannel;
     [SerializeField] VoidEventChannel onPlaceTower_EventChannel;
     [SerializeField] VoidEventChannel onExitPlacing_EventChannel;
+    [SerializeField] VoidEventChannel onDisableDescriptionMenu;
     [SerializeField] bool isPlacing = false;
     [SerializeField] PlacementPointer placementPosition;
 
@@ -116,6 +117,7 @@ public class ControlMapping : MonoBehaviour
     void ExitPlacementMode(InputAction.CallbackContext ctx)
     {
         onExitPlacing_EventChannel.CallEvent(new());
+        onDisableDescriptionMenu.CallEvent(new());
         ExitMode();
     }
 
