@@ -39,7 +39,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] VoidEventChannel onFirstWave_EventChannel;
     bool isFirstWave = true;
 
-    float maxHealth = 0;
+    float maxHealth = 3;
+    int waveCounter = 0;
+    int probability = 7;
 
     // Start is called before the first frame update
     void Awake()
@@ -92,21 +94,39 @@ public class GameManager : MonoBehaviour
         }
         enemySpawnTimer -= .25f;
         enemySpawnTimer_wfs = new WaitForSeconds(enemySpawnTimer);
-
     }
 
 
     void LoadNextAttackPhase()
     {
+        waveCounter++;
         enemySpawnCount += enemyIncreasingCount;
         enemyIncreasingCount += 3;
-        if (Random.Range(0, 10) >= 8)
+        //if (Random.Range(0, 10) >= 5)
+        //{
+        //    if(Random.Range(0,15) >= 14)
+        //    {
+        //        maxHealth += 5;
+        //    }
+        //    else
+        //    {
+        //        maxHealth += 1;
+        //    }        
+        //}
+
+        if(waveCounter % 3 == 0)
         {
-            maxHealth += 1;
+            maxHealth += 2;
+            probability -= 1;
+
+            if(probability <= 0)
+            {
+                probability = 1;
+            }
         }
+
         DecreaseTimer();
         currentEnemyCount = enemySpawnCount;
-
     }
 
     void OnWaveEnd()
@@ -125,9 +145,9 @@ public class GameManager : MonoBehaviour
         {
             EnemyAI enemy = Instantiate(enemyPrefab, spawnPosition.position, Quaternion.identity).GetComponent<EnemyAI>();
             enemy.OnSpawn(endPositions[Random.Range(0,2)]);
-            if(Random.Range(0,10) >= 8)
+            if(Random.Range(0,10) >= probability)
             {
-                enemy.Health = Random.Range(1, maxHealth);
+                enemy.Health = Random.Range(maxHealth - 2, maxHealth);
             }
             yield return enemySpawnTimer_wfs;
         }
