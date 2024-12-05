@@ -678,7 +678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerSpawn: {fileID: 1078076181}
   towerInformation:
-    currencyValue: 15
+    currencyValue: 40
     towerIndex: 1
 --- !u!1 &110219434
 GameObject:
@@ -3830,7 +3830,7 @@ MonoBehaviour:
   startingPlayerSens: 10
   enemySpawnCount: 0
   currentEnemyCount: 0
-  currency: 200
+  currency: 75
   spawnPosition: {fileID: 318764392}
   endPositions:
   - {fileID: 1096368890}
@@ -6591,6 +6591,8 @@ MonoBehaviour:
   onDisableDescriptionMenu_EventChannel: {fileID: 11400000, guid: a8fe702c097af5d4e8a18c2decf9a677, type: 2}
   towerMaterial: {fileID: 0}
   placingMaterial: {fileID: 2100000, guid: 1b1ab26ae864961409523ab54bdef05f, type: 2}
+  tempTower1CostTMP: {fileID: 2140910726}
+  tempTower2CostTMP: {fileID: 1596820147}
   onEnterPlacementMode_EventChannel: {fileID: 11400000, guid: 7fb7563d928da0f4d93017f20bc9df4d, type: 2}
   placingControls: {fileID: 212059087}
 --- !u!114 &1078076182
@@ -9498,7 +9500,7 @@ GameObject:
   - component: {fileID: 1596820148}
   - component: {fileID: 1596820147}
   m_Layer: 5
-  m_Name: TMP DPS cost
+  m_Name: TMP Support cost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9543,7 +9545,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $15
+  m_text: $50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}

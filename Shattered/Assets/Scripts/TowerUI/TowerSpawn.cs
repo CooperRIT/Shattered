@@ -43,6 +43,8 @@ public class TowerSpawn : MonoBehaviour
     GameObject tempTower;
     MeshRenderer tempTowerMeshRenderer;
     TowerInformation tempTowerInformation;
+    [SerializeField] TextMeshProUGUI tempTower1CostTMP;
+    [SerializeField] TextMeshProUGUI tempTower2CostTMP;
     Collider tempTowerCollider;
     [SerializeField] VoidEventChannel onEnterPlacementMode_EventChannel;
 
@@ -134,6 +136,18 @@ public class TowerSpawn : MonoBehaviour
             isFirstSupportTower = false;
         }
         GameManager.instance.Currency -= tempTowerInformation.currencyValue;
+        
+        tempTowerInformation.currencyValue *= 2;
+
+        if (tempTowerInformation.towerIndex == 0)
+        {
+            tempTower1CostTMP.text = $"${tempTowerInformation.currencyValue}";
+        }
+        if (tempTowerInformation.towerIndex == 1)
+        {
+            tempTower2CostTMP.text = $"${tempTowerInformation.currencyValue}";
+        }
+
         tempTowerMeshRenderer.material = towerMaterial;
         tempTower.transform.parent = null;
         tempTowerCollider.enabled = true;

@@ -14,9 +14,9 @@ public class TowerValues : MonoBehaviour
     [SerializeField] TowerSpawn towerSpawn;
     [SerializeField] TowerInformation towerInformation;
 
-
     public void OnSpawnTower()
     {
         towerSpawn.SelectTower(towerInformation);
+        towerInformation.currencyValue *= 2;
     }
 }
