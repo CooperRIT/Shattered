@@ -160,7 +160,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 17
+  m_Radius: 22
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4239013096436539850
 MonoBehaviour:
@@ -178,9 +178,9 @@ MonoBehaviour:
   upgrades:
     towerName: Support Tower
     upgradableStats:
-      upgradableStatOne: 17
+      upgradableStatOne: 22
       upgradableStatTwo: 0
-      maxUpgradeStatOne: 25
+      maxUpgradeStatOne: 30
       maxUpgradeStatTwo: 0
     upgradeTextOne: Radius
     upgradeTextTwo: NONE

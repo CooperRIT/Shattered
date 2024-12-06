@@ -148,6 +148,10 @@ public class GameManager : MonoBehaviour
         {
             int randomPath = Random.Range(0, 3);
             EnemyAI enemy = Instantiate(enemyPrefab, spawnPositions[randomPath].position, Quaternion.identity).GetComponent<EnemyAI>();
+            if (Random.Range(0, 10) >= probability)
+            {
+                enemy.Health = Random.Range(maxHealth - 2, maxHealth);
+            }
             enemy.transform.forward = spawnPositions[randomPath].forward;
             switch(randomPath)
             {
@@ -160,10 +164,6 @@ public class GameManager : MonoBehaviour
                 case 2:
                     enemy.OnSpawn(leftRightDestinations.LeftPathTransforms.ToList());
                     break;
-            }
-            if(Random.Range(0,10) >= probability)
-            {
-                enemy.Health = Random.Range(maxHealth - 2, maxHealth);
             }
             yield return enemySpawnTimer_wfs;
         }
@@ -187,6 +187,7 @@ public class GameManager : MonoBehaviour
     //Restarts scene on death
     public void OnMainTowerDeath(VoidEvent ctx)
     {
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene(0);
     }
 
