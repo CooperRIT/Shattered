@@ -35,9 +35,9 @@ public class GamblingTower : BaseTowerAI
         }
     }
 
-    public override void SpecialBehavior()
+    void LetsGoGambling()
     {
-        if(!canRoll)
+        if (!canRoll)
         {
             return;
         }
@@ -77,6 +77,7 @@ public class GamblingTower : BaseTowerAI
             }
         }
         towers.Clear();
+        Destroy(transform.parent.gameObject);
     }
 
     void DestoryAllEnemies()
@@ -103,11 +104,17 @@ public class GamblingTower : BaseTowerAI
 
     public override void UpgradeLogicOne(int statIncrease)
     {
-        throw new System.NotImplementedException();
+        LetsGoGambling();
+        upgrades.UpgradePriceOne *= 4;
     }
 
     public override void UpgradeLogicTwo(int statIncrease)
     {
-        throw new System.NotImplementedException();
+
+    }
+
+    public override bool CanUpgrade(int statToIncrease)
+    {
+        return true;
     }
 }

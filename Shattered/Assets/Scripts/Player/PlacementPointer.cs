@@ -18,13 +18,18 @@ public class PlacementPointer : MonoBehaviour
 
     Material cubeMaterial;
 
+    [SerializeField] Vector3 lastHit;
+
     private void Update()
     {
         RaycastHit hit;
         if(Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, maxDistance, layerMask))
         {
             transform.position = hit.point;
+            lastHit = hit.point;
         }
+
+        transform.position = lastHit;
     }
 
     private void OnEnable()

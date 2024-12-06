@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,8 +30,10 @@ public class GameManager : MonoBehaviour
 
     WaitForSeconds enemySpawnTimer_wfs;
 
-    [SerializeField] Transform spawnPosition;
-    [SerializeField] List<Transform> endPositions = new List<Transform>();
+    //[SerializeField] Transform spawnPosition;
+    [SerializeField] List<Transform> spawnPositions = new List<Transform>();
+    [SerializeField] Transform endPosition;
+    [SerializeField] LeftRightDestinations leftRightDestinations = new LeftRightDestinations();
 
     [SerializeField] GameObject enemyPrefab;
 
@@ -143,8 +146,21 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < enemySpawnCount; i++)
         {
-            EnemyAI enemy = Instantiate(enemyPrefab, spawnPosition.position, Quaternion.identity).GetComponent<EnemyAI>();
-            enemy.OnSpawn(endPositions[Random.Range(0,2)]);
+            int randomPath = Random.Range(0, 3);
+            EnemyAI enemy = Instantiate(enemyPrefab, spawnPositions[randomPath].position, Quaternion.identity).GetComponent<EnemyAI>();
+            enemy.transform.forward = spawnPositions[randomPath].forward;
+            switch(randomPath)
+            {
+                case 0:
+                    enemy.OnSpawn(endPosition);
+                    break;
+                case 1:
+                    enemy.OnSpawn(leftRightDestinations.RightPathTransforms.ToList());
+                    break;
+                case 2:
+                    enemy.OnSpawn(leftRightDestinations.LeftPathTransforms.ToList());
+                    break;
+            }
             if(Random.Range(0,10) >= probability)
             {
                 enemy.Health = Random.Range(maxHealth - 2, maxHealth);
@@ -195,5 +211,22 @@ public class GameManager : MonoBehaviour
     public float StartingPlayerSens
     {
         get { return startingPlayerSens; }
+    }
+
+    [System.Serializable]
+    public struct LeftRightDestinations
+    {
+        [SerializeField] Transform[] leftPathTransforms;
+        [SerializeField] Transform[] rightPathTransforms;
+
+        public Transform[] LeftPathTransforms
+        {
+            get { return leftPathTransforms; }
+        }
+
+        public Transform[] RightPathTransforms
+        {
+            get { return rightPathTransforms; }
+        }
     }
 }

@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 84672aaab613052429b3812e122b2e11, type: 3}
+  - {fileID: 2100000, guid: 33a46d39222bb34479e2437b02c47319, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -213,11 +213,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onTowerInteract_EventChannel: {fileID: 11400000, guid: 7135663503ad2b548af98179693ae013, type: 2}
   upgrades:
+    towerName: Attack Tower
     upgradableStats:
       upgradableStatOne: 1
       upgradableStatTwo: 3
-    upgradeTextOne: Insert Text 1
-    upgradeTextTwo: Insert Text 2
+      maxUpgradeStatOne: 5
+      maxUpgradeStatTwo: 1
+    upgradeTextOne: Damage
+    upgradeTextTwo: Fire Timer
     upgradePriceOne: 10
     upgradePriceTwo: 10
   enemies: []
@@ -243,5 +246,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 13.31
+  m_Radius: 17
   m_Center: {x: 0, y: 0, z: 0}

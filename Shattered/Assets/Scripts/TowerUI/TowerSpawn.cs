@@ -43,8 +43,7 @@ public class TowerSpawn : MonoBehaviour
     GameObject tempTower;
     MeshRenderer tempTowerMeshRenderer;
     TowerInformation tempTowerInformation;
-    [SerializeField] TextMeshProUGUI tempTower1CostTMP;
-    [SerializeField] TextMeshProUGUI tempTower2CostTMP;
+    [SerializeField] List<TextMeshProUGUI> towerCostText = new List<TextMeshProUGUI>();
     Collider tempTowerCollider;
     [SerializeField] VoidEventChannel onEnterPlacementMode_EventChannel;
 
@@ -57,35 +56,6 @@ public class TowerSpawn : MonoBehaviour
         playerSettings = GetComponent<PlayerSettings>();
     }
 
-    /*public void SpawnTower(TowerInformation tower)
-    {
-        if (currentCurrency < tower.currencyValue)
-        {
-            return;
-        }
-
-        if(isFirstDpsTower && tower.towerIndex == 0)
-        {
-            onFirstDpsTower_EventChannel.CallEvent(new());
-            isFirstDpsTower = false;
-        }
-        if (isFirstSupportTower && tower.towerIndex == 1)
-        {
-            onFirstSupportTower_EventChannel.CallEvent(new());
-            isFirstSupportTower = false;
-        }
-
-        BaseTowerAI towerAI = Instantiate(towerPrefab[tower.towerIndex], interactionBlock.transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<BaseTowerAI>();
-        GameManager.instance.Currency -= tower.currencyValue;
-        UpdateCurrencyText(placeHolder);
-        towerAI.InteractionPoint = interactionBlock;
-        interactionBlock.SetActive(false);
-        ButtonUsed();
-    }*/
-
-    
-
-
     public void ButtonUsed()
     {
         // Hide the cursor and lock it to the center of the screen
@@ -95,6 +65,7 @@ public class TowerSpawn : MonoBehaviour
         // Hide and deactivate the menu
         menuUI.SetActive(false);
         playerSettings.ReappleSens();
+
     }
 
     void OnMenutActivate()
@@ -115,7 +86,7 @@ public class TowerSpawn : MonoBehaviour
         nextWaveText.enabled = !nextWaveText.enabled;
     }
 
-    void CurrencyUpdate()
+    public void CurrencyUpdate()
     {
         currencyText.text = $"<b>Currency:</b> {currentCurrency}";
         towerMenuCurrencyText.text = currencyText.text;
@@ -135,26 +106,24 @@ public class TowerSpawn : MonoBehaviour
             onFirstSupportTower_EventChannel.CallEvent(new());
             isFirstSupportTower = false;
         }
+
         GameManager.instance.Currency -= tempTowerInformation.currencyValue;
-        
-        tempTowerInformation.currencyValue *= 2;
-
-        if (tempTowerInformation.towerIndex == 0)
-        {
-            tempTower1CostTMP.text = $"${tempTowerInformation.currencyValue}";
-        }
-        if (tempTowerInformation.towerIndex == 1)
-        {
-            tempTower2CostTMP.text = $"${tempTowerInformation.currencyValue}";
-        }
-
+        tempTowerInformation.currencyValue += 5;
+        towerCostText[tempTowerInformation.towerIndex].text = $"${tempTowerInformation.currencyValue}";
         tempTowerMeshRenderer.material = towerMaterial;
         tempTower.transform.parent = null;
         tempTowerCollider.enabled = true;
         UpdateCurrencyText(placeHolder);
+        Debug.Log(tempTowerInformation.currencyValue);
         tempTower = null;
         placingControls.SetActive(false);
         onDisableDescriptionMenu_EventChannel.CallEvent(new());
+
+        //A little bit of a sideways way to allow procedural rings without me needing to do a ton of extra work
+        if(tempTowerInformation.towerIndex == 1)
+        {
+            tempTowerMeshRenderer.enabled = false;
+        }
     }
 
     public void CancelPlacement(VoidEvent ctx)
@@ -209,12 +178,12 @@ public class TowerSpawn : MonoBehaviour
 
     public void OnOpenMenu(GameObjectEvent ctx)
     {
-        if (pauseUI.activeSelf || intrusctionsUI.activeSelf || upgradeUI.activeSelf)
+        if (pauseUI.activeSelf || intrusctionsUI.activeSelf || upgradeUI.activeSelf || menuUI.activeSelf)
         {
             return;
         }
 
-        Debug.Log("hello");
+
         placementPosition = ctx.GameObjectRef;
         towerMenuCurrencyText.text = currencyText.text;
         OnMenutActivate();

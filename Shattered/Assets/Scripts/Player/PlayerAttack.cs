@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviour, CanBeBuffed
 {
     //Prefab of projectile
     [SerializeField]
@@ -23,6 +23,13 @@ public class PlayerAttack : MonoBehaviour
     private Camera mainCamera;
 
     private Vector3 cameraDirection => Camera.main.transform.forward;
+
+    public float BuffableStatOne { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public float BuffableStatTwo 
+    { 
+        get => timerAmmount; 
+        set => timerAmmount = value; 
+    }
 
     private float timer;
 
@@ -78,5 +85,17 @@ public class PlayerAttack : MonoBehaviour
 
         cooldownCircle.sprite = downCircle;
         refresh = true;
+    }
+
+    public void ModifyStats(float statModifyOne, float statModifyTwo)
+    {
+        if(timerAmmount <= .5f)
+        {
+            return;
+        }
+
+        Debug.Log("buffed");
+
+        timerAmmount -= statModifyTwo / 2;
     }
 }

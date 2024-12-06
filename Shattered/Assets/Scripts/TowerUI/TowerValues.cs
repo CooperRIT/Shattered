@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct TowerInformation
+public class TowerInformation
 {
     public int currencyValue;
     public int towerIndex;
@@ -17,6 +17,5 @@ public class TowerValues : MonoBehaviour
     public void OnSpawnTower()
     {
         towerSpawn.SelectTower(towerInformation);
-        towerInformation.currencyValue *= 2;
     }
 }

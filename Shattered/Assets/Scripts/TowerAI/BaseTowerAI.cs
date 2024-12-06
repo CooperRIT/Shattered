@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Base Class Responsible For Behavior Every Tower Has
@@ -16,8 +17,9 @@ public abstract class BaseTowerAI : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        upgrades.upgradeLogicOneDel += UpgradeLogicOne;
-        upgrades.upgradeLogicTwoDel += UpgradeLogicTwo;
+        upgrades.UpgradeLogicOneUE += UpgradeLogicOne;
+        upgrades.UpgradeLogicTwoUE += UpgradeLogicTwo;
+        upgrades.AbleToUpgradeLogicD += CanUpgrade;
     }
 
 
@@ -25,6 +27,11 @@ public abstract class BaseTowerAI : MonoBehaviour, IInteractable
     { 
         get {return canInteract;}
         set { canInteract = value; }
+    }
+
+    public Upgrades Upgrades
+    {
+        get {return upgrades;}
     }
 
     public virtual void OnInteract()
@@ -50,6 +57,8 @@ public abstract class BaseTowerAI : MonoBehaviour, IInteractable
 
     public abstract void UpgradeLogicTwo(int statIncrease);
 
+    public abstract bool CanUpgrade(int statToIncrease);
+
     private void OnDestroy()
     {
         
@@ -60,6 +69,8 @@ public abstract class BaseTowerAI : MonoBehaviour, IInteractable
 [System.Serializable]
 public class Upgrades
 {
+    [SerializeField] string towerName;
+
     [SerializeField] Upgradable upgradableStats = new Upgradable();
 
     [SerializeField] string upgradeTextOne;
@@ -68,14 +79,15 @@ public class Upgrades
     [SerializeField] int upgradePriceOne;
     [SerializeField] int upgradePriceTwo;
 
-    public delegate void UpgradeLogicOne(int statIncrease);
-    public UpgradeLogicOne upgradeLogicOneDel;
-    public delegate void UpgradeLogicTwo(int statIncrease);
-    public UpgradeLogicTwo upgradeLogicTwoDel;
+    public UnityAction<int> UpgradeLogicOneUE;
+    public UnityAction<int> UpgradeLogicTwoUE;
+
+    public delegate bool CanUpgrade(int statToIncrease);
+    public CanUpgrade AbleToUpgradeLogicD;
 
     public string UpgradeTextOne
     {
-        get { return upgradeTextOne; } 
+        get { return upgradeTextOne; }
     }
 
     public string UpgradeTextTwo
@@ -83,9 +95,26 @@ public class Upgrades
         get { return upgradeTextTwo; }
     }
 
+    public int UpgradePriceOne
+    {
+        get { return upgradePriceOne; }
+        set { upgradePriceOne = value; }
+    }
+
+    public int UpgradePriceTwo
+    {
+        get { return upgradePriceTwo; }
+        set { upgradePriceTwo = value; }
+    }
+
     public Upgradable UpgradableStats
     {
         get { return upgradableStats; }
+    }
+
+    public string TowerName
+    {
+        get { return towerName; }
     }
 }
 
@@ -95,6 +124,9 @@ public class Upgradable
 {
     [SerializeField] float upgradableStatOne;
     [SerializeField] float upgradableStatTwo;
+
+    [SerializeField] float maxUpgradeStatOne;
+    [SerializeField] float maxUpgradeStatTwo;
 
 
     public float UpgradableStatOne
@@ -107,5 +139,15 @@ public class Upgradable
     {
         get { return upgradableStatTwo; }
         set { upgradableStatTwo = value; }
+    }
+
+    public float MaxUpgradeStatOne
+    {
+        get { return maxUpgradeStatOne; }
+    }
+
+    public float MaxUpgradeStatTwo
+    {
+        get { return maxUpgradeStatTwo; }
     }
 }

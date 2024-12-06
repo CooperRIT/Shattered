@@ -9,7 +9,7 @@ using UnityEngine.AI;
 public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
 {
     NavMeshAgent agent;
-    [SerializeField] Transform destination;
+    [SerializeField] List<Transform> destinations = new List<Transform>();
 
     [SerializeField] FloatEventChannel onEnemyDeath_FloatEventChannel;
 
@@ -22,6 +22,9 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
 
     bool isDead;
 
+    public delegate void PursueDestination();
+    public PursueDestination pursueDestination;
+
     public float Health
     {
         get { return health; }
@@ -33,6 +36,7 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         currencyValue_FloatEvent.FloatValue = currencyValue;
+        pursueDestination += () => { };
     }
 
     public void TakeDamage(float damage)
@@ -49,8 +53,15 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
 
     public virtual void OnSpawn(Transform _destination)
     {
-        destination = _destination;
-        agent.SetDestination(destination.position);
+        destinations.Add(_destination);
+        agent.SetDestination(destinations[0].position);
+    }
+
+    public virtual void OnSpawn(List<Transform> _destinations)
+    {
+        destinations = _destinations;
+        agent.SetDestination(destinations[0].position);
+        pursueDestination += GoTowardDestination;
     }
 
     public virtual void OnDeath()
@@ -64,5 +75,27 @@ public abstract class BaseEnemyAI : MonoBehaviour, IDamageable, ICanDamage
         currencyValue_FloatEvent.FloatValue = currencyValue;
         onEnemyDeath_FloatEventChannel.CallEvent(currencyValue_FloatEvent);
         Destroy(gameObject);
+    }
+
+    private void GoTowardDestination()
+    {
+        if (Vector3.Distance(destinations[0].position, transform.position) > 1f)
+        {
+            return;
+        }
+
+        destinations.RemoveAt(0);
+        agent.SetDestination(destinations[0].position);
+
+        if(destinations.Count <= 1)
+        {
+            pursueDestination -= GoTowardDestination;
+            return;
+        }
+    }
+
+    public virtual void Update()
+    {
+        pursueDestination();
     }
 }

@@ -1,46 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SupportTowerAI : BaseTowerAI, ICanBuff
 {
+    [SerializeField] SphereCollider sphereCollider;
+
+    float radius => upgrades.UpgradableStats.UpgradableStatOne;
+
+    [SerializeField] List<CanBeBuffed> buffedTowers = new List<CanBeBuffed>();
+
+    [SerializeField] LayerMask buffableLayers;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer != 6)
+
+        if ((buffableLayers.value & (1 << other.gameObject.layer)) == 0)
         {
             return;
         }
 
-        Debug.Log("is tower");
-
-        if (other.transform.GetChild(0).TryGetComponent(out CanBeBuffed attackTower))
+        if (other.transform.GetChild(0).TryGetComponent(out CanBeBuffed buffed))
         {
             Debug.Log("applied buffs");
-            attackTower.ModifyStats(0, -1);
+            buffed.ModifyStats(0, 1);
+            buffedTowers.Add(buffed);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != 6)
+        if ((buffableLayers.value & (1 << other.gameObject.layer)) == 0)
         {
             return;
         }
 
-        if (other.transform.GetChild(0).TryGetComponent(out CanBeBuffed attackTower))
+        if (other.transform.GetChild(0).TryGetComponent(out CanBeBuffed buffed))
         {
-            attackTower.ModifyStats(0, 1);
+            Debug.Log("applied buffs");
+            buffed.ModifyStats(0, -1);
+            buffedTowers.Remove(buffed);
         }
     }
 
     public override void UpgradeLogicOne(int statIncrease)
     {
-        throw new System.NotImplementedException();
+        if (radius + statIncrease > upgrades.UpgradableStats.MaxUpgradeStatOne)
+        {
+            return;
+        }
+
+        upgrades.UpgradableStats.UpgradableStatOne += statIncrease;
+        sphereCollider.radius = radius;
+        upgrades.UpgradePriceOne += 10;
     }
 
-    public override void UpgradeLogicTwo(int statIncrease)
+    public override void UpgradeLogicTwo(int statToIncrease)
     {
-        throw new System.NotImplementedException();
+
+    }
+
+    private void OnDestroy()
+    {
+        foreach(CanBeBuffed buffed in buffedTowers)
+        {
+            if(buffed == null)
+            {
+                continue;
+            }
+            buffed.ModifyStats(0, -1);
+        }
+    }
+
+    public override bool CanUpgrade(int statIncrease)
+    {
+        return radius < upgrades.UpgradableStats.MaxUpgradeStatOne;
     }
 }
 

@@ -23,8 +23,6 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage, CanBeBuffed
     [SerializeField] float randomOffset;
 
 
-
-
     private void Awake()
     {
         randomOffset = Random.Range(0.0f, .3f);
@@ -102,18 +100,46 @@ public class AttackTowerAI : BaseTowerAI, ICanDamage, CanBeBuffed
 
     public override void UpgradeLogicOne(int statIncrease)
     {
-        throw new System.NotImplementedException();
+        upgrades.UpgradePriceOne *= 2;
+
+        ModifyStats(statIncrease, 0);
     }
 
     public override void UpgradeLogicTwo(int statIncrease)
     {
-        throw new System.NotImplementedException();
+        upgrades.UpgradePriceTwo += 10;
+
+        ModifyStats(0, statIncrease);
     }
 
     public void ModifyStats(float statModifyOne, float statModifyTwo)
     {
+        //In order to nullify further buffs
+        if (BuffableStatOne + statModifyOne > upgrades.UpgradableStats.MaxUpgradeStatOne)
+        {
+            statModifyOne = 0;
+        }
+
+        if (BuffableStatTwo - statModifyTwo < upgrades.UpgradableStats.MaxUpgradeStatTwo)
+        {
+            statModifyTwo = 0;
+        }
+
+
         BuffableStatOne += statModifyOne;
-        BuffableStatTwo += statModifyTwo;
+        BuffableStatTwo -= statModifyTwo;
+    }
+
+    public override bool CanUpgrade(int statToIncrease)
+    {
+        if(statToIncrease == 1)
+        {
+            return BuffableStatOne < upgrades.UpgradableStats.MaxUpgradeStatOne;
+        }
+        else
+        {
+            return BuffableStatTwo > upgrades.UpgradableStats.MaxUpgradeStatTwo;
+        }
     }
 
     public float BuffableStatOne 

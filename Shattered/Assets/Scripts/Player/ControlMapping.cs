@@ -45,8 +45,8 @@ public class ControlMapping : MonoBehaviour
     private void OnEnable()
     {
         mainPlayerControls.Enable();
-        mainPlayerControls.BasicControls.Interact.performed += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
-        mainPlayerControls.BasicControls.Interact.canceled += (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
+        mainPlayerControls.BasicControls.Interact.performed += InteractPeformed;
+        mainPlayerControls.BasicControls.Interact.canceled += InteractCanceled;
         mainPlayerControls.BasicControls.NextWave.performed += (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new());};
         mainPlayerControls.BasicControls.Pause.performed += PauseMenu;
         mainPlayerControls.BasicControls.Attack.performed += OnAttack;
@@ -58,8 +58,8 @@ public class ControlMapping : MonoBehaviour
     private void OnDisable()
     {
         mainPlayerControls.Disable();
-        mainPlayerControls.BasicControls.Interact.performed -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = true; };
-        mainPlayerControls.BasicControls.Interact.canceled -= (InputAction.CallbackContext ctx) => { playerInteractor.Interacted = false; };
+        mainPlayerControls.BasicControls.Interact.performed -= InteractPeformed;
+        mainPlayerControls.BasicControls.Interact.canceled -= InteractCanceled;
         mainPlayerControls.BasicControls.NextWave.performed -= (InputAction.CallbackContext ctx) => { nextWave_EventChannel.CallEvent(new()); };
         mainPlayerControls.BasicControls.Pause.performed -= PauseMenu;
         mainPlayerControls.BasicControls.Attack.performed -= OnAttack;
@@ -139,6 +139,7 @@ public class ControlMapping : MonoBehaviour
 
         mainPlayerControls.BasicControls.Pause.performed += Empty;
         mainPlayerControls.BasicControls.Pause.performed -= PauseMenu;
+
     }
 
     void PlacementDeAssigning()
@@ -154,6 +155,16 @@ public class ControlMapping : MonoBehaviour
     void PauseMenu(InputAction.CallbackContext ctx)
     {
         pauseMenu.Pause();
+    }
+
+    void InteractPeformed(InputAction.CallbackContext ctx)
+    {
+        playerInteractor.Interacted = true;
+    }
+
+    void InteractCanceled(InputAction.CallbackContext ctx)
+    {
+        playerInteractor.Interacted = false;
     }
 
     void Empty(InputAction.CallbackContext ctx)
